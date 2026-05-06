@@ -143,6 +143,7 @@
     radial-gradient(circle at 74% 45%, rgba(224, 48, 74, .62), transparent 18%),
     radial-gradient(circle at 72% 54%, rgba(255, 120, 56, .36), transparent 30%),
     linear-gradient(90deg, rgba(3,7,11,.99), rgba(3,7,11,.93) 45%, rgba(24,6,10,.75) 74%, rgba(3,7,11,.96));
+  will-change: transform, opacity;
 }
 
 .fire-hero__smoke {
@@ -250,6 +251,7 @@
     radial-gradient(circle at 50% 50%, rgba(255,120,56,.36), transparent 34%),
     radial-gradient(circle at 55% 58%, rgba(196,30,58,.28), transparent 58%);
   filter: blur(18px);
+  will-change: transform, opacity;
 }
 
 .fire-hero__visual img {
@@ -757,6 +759,27 @@
 .fire-home .xxx-animate.is-visible {
   opacity: 1;
   transform: translate3d(0, 0, 0);
+}
+
+.fire-home .gsap-word {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+.fire-home img.is-broken {
+  opacity: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .fire-service,
+  .fire-product-list article,
+  .fire-why__grid article,
+  .fire-testimonials blockquote,
+  .fire-contact__form {
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
 }
 
 @media (max-width: 1180px) {

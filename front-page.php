@@ -7,20 +7,61 @@
 
 get_header();
 
+if ( ! function_exists( 'xxx_safety_home_asset_url' ) ) {
+	/**
+	 * Return a theme image URL for Home assets.
+	 *
+	 * @param string $filename File name inside assets/images.
+	 * @return string
+	 */
+	function xxx_safety_home_asset_url( $filename ) {
+		return get_template_directory_uri() . '/assets/images/' . ltrim( $filename, '/' );
+	}
+}
+
+if ( ! function_exists( 'xxx_safety_home_image_url' ) ) {
+	/**
+	 * Keep old external demo/customizer URLs from breaking production.
+	 *
+	 * @param string $url      Candidate image URL.
+	 * @param string $fallback Local fallback URL.
+	 * @return string
+	 */
+	function xxx_safety_home_image_url( $url, $fallback ) {
+		$url  = trim( (string) $url );
+		$host = $url ? wp_parse_url( $url, PHP_URL_HOST ) : '';
+
+		if ( ! $url || ! $host ) {
+			return $fallback;
+		}
+
+		foreach ( array( 'unsplash.com', 'pexels.com', 'pixabay.com' ) as $fragile_host ) {
+			if ( false !== strpos( strtolower( $host ), $fragile_host ) ) {
+				return $fallback;
+			}
+		}
+
+		return $url;
+	}
+}
+
 $main_cta_text = xxx_safety_get_theme_mod( 'main_cta_text', __( 'Solicitar orçamento agora', 'xxx-safety-prevention' ) );
 $main_cta_link = xxx_safety_get_theme_mod( 'main_cta_link', '#contato' );
 $whatsapp      = preg_replace( '/\D+/', '', xxx_safety_get_theme_mod( 'whatsapp_number', '' ) );
 $whatsapp_link = $whatsapp ? 'https://wa.me/' . $whatsapp . '?text=' . rawurlencode( 'Olá, quero solicitar um orçamento para segurança contra incêndio.' ) : '#contato';
-$hero_image    = xxx_safety_get_theme_mod( 'hero_image', get_template_directory_uri() . '/assets/images/fire-extinguisher-hero.png' );
+$image_fallback = xxx_safety_home_asset_url( 'fire-extinguisher-hero.png' );
+$hero_image    = xxx_safety_home_image_url( xxx_safety_get_theme_mod( 'hero_image', '' ), $image_fallback );
 $phone         = xxx_safety_get_theme_mod( 'phone', '(11) 3478-2200' );
 $email         = xxx_safety_get_theme_mod( 'email', 'contato@empresa.com.br' );
 
 $visuals = array(
-	'maintenance' => 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&w=1200&q=82',
-	'inspection'  => 'https://images.unsplash.com/photo-1581092334651-ddf26d9a09d0?auto=format&fit=crop&w=1200&q=82',
-	'signage'     => 'https://images.unsplash.com/photo-1604014238170-4def1e4e6fcf?auto=format&fit=crop&w=1200&q=82',
-	'hydrant'     => 'https://images.unsplash.com/photo-1516937941344-00b4e0337589?auto=format&fit=crop&w=1200&q=82',
-	'building'    => 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1400&q=82',
+	'hero'        => array( 'url' => $hero_image, 'width' => 536, 'height' => 790 ),
+	'fallback'    => array( 'url' => $image_fallback, 'width' => 536, 'height' => 790 ),
+	'maintenance' => array( 'url' => xxx_safety_home_asset_url( 'fire-service-maintenance.jpg' ), 'width' => 1280, 'height' => 914 ),
+	'inspection'  => array( 'url' => xxx_safety_home_asset_url( 'fire-office-extinguisher.jpg' ), 'width' => 1280, 'height' => 1707 ),
+	'signage'     => array( 'url' => xxx_safety_home_asset_url( 'fire-emergency-signage.jpg' ), 'width' => 1280, 'height' => 1707 ),
+	'hydrant'     => array( 'url' => xxx_safety_home_asset_url( 'fire-hose-equipment.jpg' ), 'width' => 1280, 'height' => 853 ),
+	'building'    => array( 'url' => xxx_safety_home_asset_url( 'fire-commercial-building.jpg' ), 'width' => 1280, 'height' => 960 ),
 );
 
 $trust_items = array(
@@ -31,7 +72,7 @@ $trust_items = array(
 );
 
 $services = array(
-	array( 'title' => __( 'Recarga de extintores', 'xxx-safety-prevention' ), 'text' => __( 'Controle de validade, lacre, teste e recarga para manter equipamentos prontos para uso e fiscalização.', 'xxx-safety-prevention' ), 'image' => $hero_image ),
+	array( 'title' => __( 'Recarga de extintores', 'xxx-safety-prevention' ), 'text' => __( 'Controle de validade, lacre, teste e recarga para manter equipamentos prontos para uso e fiscalização.', 'xxx-safety-prevention' ), 'image' => $visuals['hero'] ),
 	array( 'title' => __( 'Manutenção preventiva', 'xxx-safety-prevention' ), 'text' => __( 'Inspeções programadas para identificar falhas antes que elas comprometam a segurança da operação.', 'xxx-safety-prevention' ), 'image' => $visuals['maintenance'] ),
 	array( 'title' => __( 'Venda e instalação', 'xxx-safety-prevention' ), 'text' => __( 'Extintores ABC, CO2, sinalização, suportes e equipamentos definidos conforme o risco do ambiente.', 'xxx-safety-prevention' ), 'image' => $visuals['inspection'] ),
 	array( 'title' => __( 'Hidrantes e mangueiras', 'xxx-safety-prevention' ), 'text' => __( 'Mangueiras, abrigos, adaptadores e componentes para sistemas de combate bem dimensionados.', 'xxx-safety-prevention' ), 'image' => $visuals['hydrant'] ),
@@ -92,7 +133,7 @@ if ( ! $quote_shortcode ) {
 			</div>
 			<div class="fire-hero__visual">
 				<div class="fire-hero__halo" aria-hidden="true"></div>
-				<img src="<?php echo esc_url( $hero_image ); ?>" alt="<?php esc_attr_e( 'Extintor de incêndio em destaque com luz dramática', 'xxx-safety-prevention' ); ?>" width="536" height="790" fetchpriority="high" decoding="async" />
+				<img src="<?php echo esc_url( $visuals['hero']['url'] ); ?>" alt="<?php esc_attr_e( 'Extintor de incêndio em destaque com luz dramática', 'xxx-safety-prevention' ); ?>" width="<?php echo esc_attr( $visuals['hero']['width'] ); ?>" height="<?php echo esc_attr( $visuals['hero']['height'] ); ?>" fetchpriority="high" decoding="async" data-img-fallback="<?php echo esc_url( $image_fallback ); ?>" />
 				<div class="fire-hero__seal">
 					<strong><?php esc_html_e( 'INMETRO', 'xxx-safety-prevention' ); ?></strong>
 					<span><?php esc_html_e( 'equipamentos e recargas certificadas', 'xxx-safety-prevention' ); ?></span>
@@ -126,9 +167,10 @@ if ( ! $quote_shortcode ) {
 			</div>
 			<div class="fire-services__grid">
 				<?php foreach ( $services as $index => $service ) : ?>
+					<?php $service_image = $service['image']; ?>
 					<article class="fire-service xxx-animate">
 						<figure>
-							<img src="<?php echo esc_url( $service['image'] ); ?>" alt="<?php echo esc_attr( $service['title'] ); ?>" loading="lazy" decoding="async" />
+							<img src="<?php echo esc_url( $service_image['url'] ); ?>" alt="<?php echo esc_attr( $service['title'] ); ?>" width="<?php echo esc_attr( $service_image['width'] ); ?>" height="<?php echo esc_attr( $service_image['height'] ); ?>" loading="lazy" decoding="async" data-img-fallback="<?php echo esc_url( $image_fallback ); ?>" />
 						</figure>
 						<div>
 							<span><?php echo esc_html( str_pad( (string) ( $index + 1 ), 2, '0', STR_PAD_LEFT ) ); ?></span>
@@ -146,7 +188,7 @@ if ( ! $quote_shortcode ) {
 	<section class="fire-section fire-products" id="produtos">
 		<div class="container fire-products__layout">
 			<div class="fire-products__image xxx-animate">
-				<img src="<?php echo esc_url( $visuals['signage'] ); ?>" alt="<?php esc_attr_e( 'Sinalização e equipamentos de emergência em ambiente profissional', 'xxx-safety-prevention' ); ?>" loading="lazy" decoding="async" />
+				<img src="<?php echo esc_url( $visuals['signage']['url'] ); ?>" alt="<?php esc_attr_e( 'Sinalização e equipamentos de emergência em ambiente profissional', 'xxx-safety-prevention' ); ?>" width="<?php echo esc_attr( $visuals['signage']['width'] ); ?>" height="<?php echo esc_attr( $visuals['signage']['height'] ); ?>" loading="lazy" decoding="async" data-img-fallback="<?php echo esc_url( $image_fallback ); ?>" />
 			</div>
 			<div class="fire-products__content">
 				<div class="fire-section__head xxx-animate">
@@ -192,7 +234,7 @@ if ( ! $quote_shortcode ) {
 				<p><?php esc_html_e( 'Atendemos lojas, escritórios, condomínios, galpões e áreas comuns com foco em proteção de vidas, patrimônio e continuidade operacional.', 'xxx-safety-prevention' ); ?></p>
 			</div>
 			<figure class="fire-segments__image xxx-animate">
-				<img src="<?php echo esc_url( $visuals['building'] ); ?>" alt="<?php esc_attr_e( 'Ambiente comercial atendido por plano de prevenção contra incêndio', 'xxx-safety-prevention' ); ?>" loading="lazy" decoding="async" />
+				<img src="<?php echo esc_url( $visuals['building']['url'] ); ?>" alt="<?php esc_attr_e( 'Ambiente comercial atendido por plano de prevenção contra incêndio', 'xxx-safety-prevention' ); ?>" width="<?php echo esc_attr( $visuals['building']['width'] ); ?>" height="<?php echo esc_attr( $visuals['building']['height'] ); ?>" loading="lazy" decoding="async" data-img-fallback="<?php echo esc_url( $image_fallback ); ?>" />
 			</figure>
 		</div>
 	</section>
