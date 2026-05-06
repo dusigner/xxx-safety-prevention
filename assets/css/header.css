@@ -464,6 +464,12 @@ body.xxx-cart-open {
   overflow-y: auto;
   padding: 10px 20px;
   scrollbar-color: rgba(255, 106, 26, .48) rgba(255,255,255,.04);
+  transition: opacity .2s ease, filter .2s ease;
+}
+
+.xxx-mini-cart.is-refreshing .xxx-mini-cart-fragment {
+  opacity: .62;
+  filter: saturate(.9);
 }
 
 .xxx-mini-cart .woocommerce-mini-cart {
