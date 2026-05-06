@@ -92,11 +92,11 @@ $visuals = array(
 	'fallback'    => array( 'url' => $image_fallback, 'width' => 536, 'height' => 790 ),
 	'hero_rear'   => xxx_safety_home_local_image( 'product-2.jpg', 832, 1248 ),
 	'hero_detail' => xxx_safety_home_local_image( 'product-4.jpg', 832, 1248 ),
-	'maintenance' => xxx_safety_home_local_image( 'fire-service-maintenance.jpg', 1280, 914 ),
-	'inspection'  => xxx_safety_home_local_image( 'fire-office-extinguisher.jpg', 1280, 1707 ),
+	'maintenance' => xxx_safety_home_local_image( 'recarga-de-extintores.png', 1280, 914 ),
+	'inspection'  => xxx_safety_home_local_image( 'venda-e-instalacao.png', 1280, 1707 ),
 	'signage'     => xxx_safety_home_local_image( 'fire-emergency-signage.jpg', 1280, 1707 ),
-	'hydrant'     => xxx_safety_home_local_image( 'fire-hose-equipment.jpg', 1280, 853 ),
-	'building'    => xxx_safety_home_local_image( 'fire-commercial-building.jpg', 1280, 960 ),
+	'hydrant'     => xxx_safety_home_local_image( 'hidrantes-e-mangueiras.png', 1280, 853 ),
+	'building'    => xxx_safety_home_local_image( 'manutencao-preventiva.png', 1280, 960 ),
 );
 
 $trust_items = array(
