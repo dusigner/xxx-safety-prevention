@@ -94,7 +94,7 @@ $visuals = array(
 	'hero_detail' => xxx_safety_home_local_image( 'product-4.jpg', 832, 1248 ),
 	'maintenance' => xxx_safety_home_local_image( 'recarga-de-extintores.png', 1280, 914 ),
 	'inspection'  => xxx_safety_home_local_image( 'venda-e-instalacao.png', 1280, 1707 ),
-	'signage'     => xxx_safety_home_local_image( 'fire-emergency-signage.jpg', 1280, 1707 ),
+	'signage'     => xxx_safety_home_local_image( 'produtos-certificados.png', 1280, 1707 ),
 	'hydrant'     => xxx_safety_home_local_image( 'hidrantes-e-mangueiras.png', 1280, 853 ),
 	'building'    => xxx_safety_home_local_image( 'manutencao-preventiva.png', 1280, 960 ),
 );
