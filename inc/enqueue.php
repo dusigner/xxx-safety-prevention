@@ -17,18 +17,22 @@ function xxx_safety_scripts() {
 	$script_deps   = array();
 	$style_deps    = array( 'xxx-safety-main' );
 	$main_css_path = get_template_directory() . '/assets/css/main.css';
+	$header_css_path = get_template_directory() . '/assets/css/header.css';
 	$home_css_path = get_template_directory() . '/assets/css/front-page.css';
 	$archive_css_path = get_template_directory() . '/assets/css/product-archive.css';
 	$product_css_path = get_template_directory() . '/assets/css/single-product.css';
 	$main_js_path  = get_template_directory() . '/assets/js/main.js';
+	$header_js_path = get_template_directory() . '/assets/js/header.js';
 	$archive_js_path = get_template_directory() . '/assets/js/product-archive.js';
 	$product_js_path = get_template_directory() . '/assets/js/single-product.js';
 	$style_path    = get_stylesheet_directory() . '/style.css';
 	$main_css_ver  = file_exists( $main_css_path ) ? (string) filemtime( $main_css_path ) : $theme_version;
+	$header_css_ver = file_exists( $header_css_path ) ? (string) filemtime( $header_css_path ) : $theme_version;
 	$home_css_ver  = file_exists( $home_css_path ) ? (string) filemtime( $home_css_path ) : $theme_version;
 	$archive_css_ver = file_exists( $archive_css_path ) ? (string) filemtime( $archive_css_path ) : $theme_version;
 	$product_css_ver = file_exists( $product_css_path ) ? (string) filemtime( $product_css_path ) : $theme_version;
 	$main_js_ver   = file_exists( $main_js_path ) ? (string) filemtime( $main_js_path ) : $theme_version;
+	$header_js_ver = file_exists( $header_js_path ) ? (string) filemtime( $header_js_path ) : $theme_version;
 	$archive_js_ver = file_exists( $archive_js_path ) ? (string) filemtime( $archive_js_path ) : $theme_version;
 	$product_js_ver = file_exists( $product_js_path ) ? (string) filemtime( $product_js_path ) : $theme_version;
 	$style_ver     = file_exists( $style_path ) ? (string) filemtime( $style_path ) : $theme_version;
@@ -49,15 +53,21 @@ function xxx_safety_scripts() {
 		wp_enqueue_style( 'xxx-safety-single-product', get_template_directory_uri() . '/assets/css/single-product.css', array( 'xxx-safety-main' ), $product_css_ver );
 		$style_deps = array( 'xxx-safety-single-product' );
 	}
+	wp_enqueue_style( 'xxx-safety-header', get_template_directory_uri() . '/assets/css/header.css', $style_deps, $header_css_ver );
+	$style_deps = array( 'xxx-safety-header' );
 	wp_enqueue_style( 'xxx-safety-style', get_stylesheet_uri(), $style_deps, $style_ver );
 
-	if ( ( is_front_page() || $is_product || $is_product_archive ) && xxx_safety_get_theme_mod( 'enable_animations', true ) ) {
+	if ( xxx_safety_get_theme_mod( 'enable_animations', true ) ) {
 		wp_enqueue_script( 'gsap', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js', array(), '3.12.5', true );
 		wp_enqueue_script( 'gsap-scrolltrigger', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js', array( 'gsap' ), '3.12.5', true );
 		$script_deps = array( 'gsap', 'gsap-scrolltrigger' );
 	}
 
 	wp_enqueue_script( 'xxx-safety-main', get_template_directory_uri() . '/assets/js/main.js', $script_deps, $main_js_ver, true );
+	wp_enqueue_script( 'xxx-safety-header', get_template_directory_uri() . '/assets/js/header.js', array_merge( array( 'xxx-safety-main' ), $script_deps ), $header_js_ver, true );
+	if ( function_exists( 'WC' ) ) {
+		wp_enqueue_script( 'wc-cart-fragments' );
+	}
 	if ( $is_product_archive ) {
 		wp_enqueue_script( 'xxx-safety-product-archive', get_template_directory_uri() . '/assets/js/product-archive.js', array_merge( array( 'xxx-safety-main' ), $script_deps ), $archive_js_ver, true );
 	}

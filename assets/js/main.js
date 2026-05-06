@@ -29,6 +29,8 @@
   };
 
   const initMenu = () => {
+    if (document.querySelector('[data-premium-header]')) return;
+
     const menuToggle = document.querySelector('.mobile-menu-toggle');
     const menu = document.querySelector('.main-navigation');
 

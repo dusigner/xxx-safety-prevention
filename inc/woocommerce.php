@@ -82,6 +82,32 @@ function xxx_safety_wc_products_per_row() {
 }
 add_filter( 'loop_shop_columns', 'xxx_safety_wc_products_per_row' );
 
+function xxx_safety_wc_cart_fragments( $fragments ) {
+	if ( ! function_exists( 'WC' ) || ! WC()->cart ) {
+		return $fragments;
+	}
+
+	$count = WC()->cart->get_cart_contents_count();
+	ob_start();
+	?>
+	<span class="xxx-header-cart-fragment">
+		<span class="xxx-cart-count <?php echo $count ? 'has-items' : ''; ?>" data-cart-count><?php echo esc_html( $count ); ?></span>
+	</span>
+	<?php
+	$fragments['.xxx-header-cart-fragment'] = ob_get_clean();
+
+	ob_start();
+	?>
+	<div class="xxx-mini-cart-fragment">
+		<?php woocommerce_mini_cart(); ?>
+	</div>
+	<?php
+	$fragments['.xxx-mini-cart-fragment'] = ob_get_clean();
+
+	return $fragments;
+}
+add_filter( 'woocommerce_add_to_cart_fragments', 'xxx_safety_wc_cart_fragments' );
+
 function xxx_safety_wc_single_product_extras() {
 	if ( ! function_exists( 'is_product' ) || ! is_product() ) {
 		return;
