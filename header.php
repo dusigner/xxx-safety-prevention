@@ -9,10 +9,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$cart_count  = function_exists( 'WC' ) && WC()->cart ? WC()->cart->get_cart_contents_count() : 0;
-$cart_url    = function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : '#';
+$cart_count   = function_exists( 'WC' ) && WC()->cart ? WC()->cart->get_cart_contents_count() : 0;
+$cart_url     = function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : '#';
 $checkout_url = function_exists( 'wc_get_checkout_url' ) ? wc_get_checkout_url() : '#';
-$account_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'myaccount' ) : wp_login_url();
+$account_url  = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'myaccount' ) : wp_login_url();
+$logout_url  = function_exists( 'wc_logout_url' ) ? wc_logout_url() : wp_logout_url( home_url( '/' ) );
 ?><!doctype html>
 <html <?php language_attributes(); ?>>
 <head>
@@ -46,9 +47,27 @@ $account_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalin
 		</nav>
 
 		<div class="header-actions xxx-header-actions">
-			<a class="xxx-header-icon xxx-account-link" href="<?php echo esc_url( $account_url ); ?>" aria-label="<?php echo esc_attr( is_user_logged_in() ? __( 'Minha conta', 'xxx-safety-prevention' ) : __( 'Entrar ou criar conta', 'xxx-safety-prevention' ) ); ?>">
-				<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg>
-			</a>
+			<?php if ( is_user_logged_in() ) : ?>
+				<div class="xxx-account-menu">
+					<button class="xxx-header-icon xxx-account-link" type="button" aria-label="<?php esc_attr_e( 'Abrir opções da conta', 'xxx-safety-prevention' ); ?>" aria-controls="xxx-account-dropdown" aria-expanded="false" data-account-toggle>
+						<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg>
+					</button>
+					<div class="xxx-account-dropdown" id="xxx-account-dropdown" aria-hidden="true" data-account-dropdown>
+						<a href="<?php echo esc_url( $account_url ); ?>">
+							<span><?php esc_html_e( 'Minha Conta', 'xxx-safety-prevention' ); ?></span>
+							<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+						</a>
+						<a class="xxx-account-dropdown__logout" href="<?php echo esc_url( $logout_url ); ?>">
+							<span><?php esc_html_e( 'Sair / Logout', 'xxx-safety-prevention' ); ?></span>
+							<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/><path d="M13 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8"/></svg>
+						</a>
+					</div>
+				</div>
+			<?php else : ?>
+				<a class="xxx-header-icon xxx-account-link" href="<?php echo esc_url( $account_url ); ?>" aria-label="<?php esc_attr_e( 'Entrar ou criar conta', 'xxx-safety-prevention' ); ?>">
+					<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg>
+				</a>
+			<?php endif; ?>
 
 			<?php if ( function_exists( 'WC' ) ) : ?>
 				<button class="xxx-header-icon xxx-cart-toggle" type="button" aria-controls="xxx-mini-cart-panel" aria-expanded="false" data-cart-toggle>
@@ -120,6 +139,12 @@ $account_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalin
 				<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg>
 				<?php esc_html_e( 'Minha conta', 'xxx-safety-prevention' ); ?>
 			</a>
+			<?php if ( is_user_logged_in() ) : ?>
+				<a href="<?php echo esc_url( $logout_url ); ?>">
+					<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/><path d="M13 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8"/></svg>
+					<?php esc_html_e( 'Sair / Logout', 'xxx-safety-prevention' ); ?>
+				</a>
+			<?php endif; ?>
 			<?php if ( function_exists( 'WC' ) ) : ?>
 				<button type="button" data-cart-toggle>
 					<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h14l-1.5 9h-11z"/><path d="M6 8L5 4H2"/><circle cx="9" cy="20" r="1.5"/><circle cx="17" cy="20" r="1.5"/></svg>

@@ -27,6 +27,8 @@
     const cartClose = document.querySelector('[data-cart-close]');
     const menuToggle = document.querySelector('[data-menu-toggle]');
     const menuClose = document.querySelector('[data-menu-close]');
+    const accountToggle = document.querySelector('[data-account-toggle]');
+    const accountDropdown = document.querySelector('[data-account-dropdown]');
 
     const show = (element) => {
       if (!element) return;
@@ -78,6 +80,40 @@
       }
     };
 
+    const closeAccount = () => {
+      if (!accountToggle || !accountDropdown) return;
+      accountToggle.setAttribute('aria-expanded', 'false');
+
+      if (gsap && !reducedMotion) {
+        gsap.to(accountDropdown, {
+          y: 10,
+          scale: 0.98,
+          autoAlpha: 0,
+          duration: 0.18,
+          ease: 'power2.in',
+          onComplete: () => accountDropdown.setAttribute('aria-hidden', 'true'),
+        });
+      } else {
+        accountDropdown.setAttribute('aria-hidden', 'true');
+      }
+    };
+
+    const openAccount = () => {
+      if (!accountToggle || !accountDropdown) return;
+      closeCart();
+      closeMenu();
+      accountToggle.setAttribute('aria-expanded', 'true');
+      accountDropdown.setAttribute('aria-hidden', 'false');
+
+      if (gsap && !reducedMotion) {
+        gsap.fromTo(
+          accountDropdown,
+          { y: 10, scale: 0.98, autoAlpha: 0 },
+          { y: 0, scale: 1, autoAlpha: 1, duration: 0.26, ease: 'power3.out' }
+        );
+      }
+    };
+
     const closeCart = () => {
       document.body.classList.remove('xxx-cart-open');
       cartToggles.forEach((toggle) => toggle.setAttribute('aria-expanded', 'false'));
@@ -93,6 +129,7 @@
     };
 
     const openCart = () => {
+      closeAccount();
       closeMenu();
       document.body.classList.add('xxx-cart-open');
       cartToggles.forEach((toggle) => toggle.setAttribute('aria-expanded', 'true'));
@@ -101,6 +138,7 @@
     };
 
     const openMenu = () => {
+      closeAccount();
       closeCart();
       document.body.classList.add('xxx-nav-open');
       if (menuToggle) menuToggle.setAttribute('aria-expanded', 'true');
@@ -140,15 +178,44 @@
       });
     }
     if (menuClose) menuClose.addEventListener('click', closeMenu);
+    if (accountToggle) {
+      accountToggle.addEventListener('click', (event) => {
+        event.stopPropagation();
+        if (accountToggle.getAttribute('aria-expanded') === 'true') {
+          closeAccount();
+        } else {
+          openAccount();
+        }
+      });
+    }
+    if (accountDropdown) {
+      accountDropdown.addEventListener('click', (event) => {
+        event.stopPropagation();
+      });
+    }
+    if (miniCart) {
+      miniCart.addEventListener('click', (event) => {
+        if (event.target === miniCart) {
+          closeCart();
+        }
+      });
+    }
     if (overlay) {
       overlay.addEventListener('click', () => {
+        closeAccount();
         closeCart();
         closeMenu();
       });
     }
+    document.addEventListener('click', (event) => {
+      if (!accountDropdown || !accountToggle) return;
+      if (accountDropdown.contains(event.target) || accountToggle.contains(event.target)) return;
+      closeAccount();
+    });
 
     document.addEventListener('keyup', (event) => {
       if (event.key === 'Escape') {
+        closeAccount();
         closeCart();
         closeMenu();
       }
