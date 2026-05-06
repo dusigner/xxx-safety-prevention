@@ -1,0 +1,344 @@
+{
+  "empresa": "XXX Safety Prevention Engenharia",
+  "idioma": "pt-BR",
+  "home": {
+    "hero_headline": "Segurança contra incêndio com padrão técnico e gestão profissional para empresas e condomínios.",
+    "subheadline": "Soluções completas em extintores, AVCB, manutenção, treinamentos e equipamentos para empresas, condomínios e comércios.",
+    "institucional_curto": "A XXX Safety Prevention Engenharia combina engenharia de segurança, execução em campo e atendimento consultivo para reduzir riscos, manter conformidade e proteger a operação dos nossos clientes.",
+    "cta_principal": "Solicitar Orçamento",
+    "servicos_resumo": [
+      {
+        "nome": "Extintores",
+        "descricao": "Fornecimento, dimensionamento e instalação de extintores conforme a classe de risco e exigências técnicas do seu ambiente."
+      },
+      {
+        "nome": "AVCB & Consultoria",
+        "descricao": "Assessoria completa para obtenção, renovação e regularização do AVCB, com acompanhamento técnico e documental."
+      },
+      {
+        "nome": "Manutenção e Recarga",
+        "descricao": "Inspeção, manutenção preventiva/corretiva e recarga de extintores com controle de validade e rastreabilidade."
+      },
+      {
+        "nome": "Equipamentos de Combate",
+        "descricao": "Linha completa de mangueiras, abrigos, sinalização, iluminação de emergência e acessórios homologados."
+      },
+      {
+        "nome": "Treinamentos",
+        "descricao": "Capacitação prática e teórica para brigadas, equipes operacionais e gestores, com foco em resposta rápida e segura."
+      }
+    ],
+    "sobre_empresa": "Somos especializados em prevenção e combate a incêndio com atendimento regional para empresas, indústrias, condomínios e centros logísticos.",
+    "porque_escolher": [
+      "Atendimento técnico especializado e consultivo",
+      "Suporte para adequação às normas e exigências legais",
+      "Prazos ágeis e cronogramas organizados",
+      "Equipamentos de qualidade e procedência",
+      "Equipe treinada para atendimento corporativo e condominial",
+      "Pós-venda ativo com lembretes de manutenção e renovação"
+    ],
+    "produtos_intro": "Na nossa linha de produtos, você encontra itens essenciais para prevenção e combate a incêndio, com especificações técnicas claras e apoio especializado para escolher o equipamento ideal para o seu cenário.",
+    "cta_final": "Fale com um Especialista e Monte seu Plano de Segurança",
+    "metricas": [
+      {
+        "numero": "1200+",
+        "label": "clientes atendidos"
+      },
+      {
+        "numero": "98%",
+        "label": "retenção anual"
+      },
+      {
+        "numero": "24h",
+        "label": "retorno comercial"
+      }
+    ],
+    "processo": [
+      "Diagnóstico",
+      "Orçamento",
+      "Execução",
+      "Laudo/Suporte"
+    ],
+    "selos": [
+      "ABNT",
+      "NR-23",
+      "AVCB",
+      "Equipe Técnica"
+    ],
+    "hero_image": "https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?auto=format&fit=crop&w=1400&q=80",
+    "image_alt": "Equipe técnica de segurança contra incêndio em inspeção de equipamento industrial",
+    "section_image": "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80",
+    "gallery_images": [
+      "https://images.pexels.com/photos/257736/pexels-photo-257736.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "https://images.pexels.com/photos/380769/pexels-photo-380769.jpeg?auto=compress&cs=tinysrgb&w=1200"
+    ]
+  },
+  "sobre": {
+    "historia": [
+      "A XXX Extintores nasceu com o propósito de elevar o padrão de segurança contra incêndio em empresas e condomínios.",
+      "Ao longo da nossa trajetória, ampliamos nossa atuação para manutenção, recarga, treinamentos e consultoria em AVCB, estruturando processos eficientes para reduzir riscos, evitar não conformidades e apoiar nossos clientes na tomada de decisão.",
+      "Hoje, somos referência em atendimento confiável, com foco em prevenção, conformidade e continuidade operacional."
+    ],
+    "missao": "Promover segurança patrimonial e humana por meio de soluções técnicas em prevenção e combate a incêndio, com qualidade, agilidade e responsabilidade.",
+    "visao": "Ser reconhecida como parceira estratégica de empresas e condomínios na gestão de segurança contra incêndio, destacando-se pela excelência técnica e confiança no atendimento.",
+    "valores": [
+      "Segurança em primeiro lugar",
+      "Ética e transparência nas relações",
+      "Compromisso com normas e qualidade",
+      "Atendimento consultivo e humanizado",
+      "Melhoria contínua e atualização técnica"
+    ],
+    "diferenciais": [
+      "Diagnóstico técnico personalizado por segmento",
+      "Equipe preparada para demandas preventivas e emergenciais",
+      "Atendimento completo: produtos, serviços, documentação e treinamento",
+      "Planejamento anual de manutenção para evitar vencimentos e penalidades",
+      "Comunicação clara com gestores, síndicos e responsáveis técnicos"
+    ],
+    "publico": "Empresas de médio e grande porte, indústrias, condomínios corporativos e residenciais, hospitais, escolas e redes varejistas."
+  },
+  "servicos": [
+    {
+      "slug": "extintores",
+      "titulo": "Extintores para proteção imediata e conformidade legal",
+      "descricao": "A XXX Extintores oferece venda, instalação e substituição de extintores para diferentes classes de incêndio, com orientação técnica para garantir o equipamento certo no local adequado.",
+      "beneficios": [
+        "Proteção rápida em princípios de incêndio",
+        "Adequação às exigências normativas",
+        "Redução de riscos ao patrimônio e às pessoas",
+        "Orientação técnica na escolha do equipamento correto"
+      ],
+      "quando_precisa": [
+        "Abertura de empresa ou condomínio",
+        "Mudança de layout/ocupação da edificação",
+        "Regularização de exigências de vistoria",
+        "Substituição de equipamentos vencidos ou danificados"
+      ],
+      "cta": "Solicitar avaliação técnica de extintores"
+    },
+    {
+      "slug": "avcb-consultoria",
+      "titulo": "AVCB sem complicação, com acompanhamento técnico completo",
+      "descricao": "Cuidamos de todas as etapas para obtenção ou renovação do AVCB: levantamento inicial, orientação das adequações necessárias, apoio documental e acompanhamento técnico do processo.",
+      "beneficios": [
+        "Maior agilidade no processo de regularização",
+        "Redução de riscos de autuações e interdições",
+        "Planejamento técnico das adequações",
+        "Suporte especializado durante toda a jornada"
+      ],
+      "quando_precisa": [
+        "Emissão do primeiro AVCB",
+        "AVCB próximo do vencimento",
+        "Exigências em fiscalizações ou auditorias",
+        "Alterações estruturais na edificação"
+      ],
+      "cta": "Falar com consultor de AVCB"
+    },
+    {
+      "slug": "manutencao-recarga",
+      "titulo": "Manutenção e recarga com controle de prazos e segurança operacional",
+      "descricao": "Executamos inspeções periódicas, manutenção preventiva e corretiva, além de recarga de extintores com processos padronizados e controle de validade.",
+      "beneficios": [
+        "Equipamentos aptos para funcionamento imediato",
+        "Maior vida útil dos extintores",
+        "Cumprimento de periodicidades de inspeção/manutenção",
+        "Tranquilidade para gestores e síndicos"
+      ],
+      "quando_precisa": [
+        "Manutenções periódicas programadas",
+        "Após uso total ou parcial do extintor",
+        "Equipamentos com avarias, perda de pressão ou lacre violado",
+        "Preparação para auditorias e vistorias"
+      ],
+      "cta": "Agendar manutenção e recarga"
+    },
+    {
+      "slug": "equipamentos-combate",
+      "titulo": "Equipamentos completos para prevenção e resposta eficiente",
+      "descricao": "Fornecemos equipamentos essenciais para compor um sistema de segurança eficiente: mangueiras, abrigos, sinalização de emergência, iluminação, suportes e acessórios.",
+      "beneficios": [
+        "Solução completa em um único fornecedor",
+        "Produtos com especificações técnicas adequadas",
+        "Maior padronização e organização das áreas de segurança",
+        "Apoio técnico para compra assertiva"
+      ],
+      "quando_precisa": [
+        "Implantação ou atualização de sistema preventivo",
+        "Substituição de itens danificados ou fora de padrão",
+        "Adequação para vistoria e regularização",
+        "Expansão de áreas operacionais"
+      ],
+      "cta": "Ver equipamentos disponíveis"
+    },
+    {
+      "slug": "treinamentos",
+      "titulo": "Treinamentos para resposta rápida, segura e organizada",
+      "descricao": "Realizamos treinamentos práticos e teóricos para equipes internas, brigadas e responsáveis por segurança, abordando prevenção, uso correto de extintores e procedimentos em emergências.",
+      "beneficios": [
+        "Equipes mais preparadas para agir com segurança",
+        "Redução de falhas em situações críticas",
+        "Fortalecimento da cultura de prevenção",
+        "Mais confiança para gestores e colaboradores"
+      ],
+      "quando_precisa": [
+        "Formação e reciclagem de brigada",
+        "Integração de novos colaboradores",
+        "Atualização periódica de protocolos de segurança",
+        "Preparação para auditorias e conformidade interna"
+      ],
+      "cta": "Solicitar proposta de treinamento"
+    }
+  ],
+  "woocommerce": {
+    "shop_intro": "Na XXX Extintores, você encontra produtos selecionados para prevenção e combate a incêndio com qualidade, procedência e suporte técnico na escolha.",
+    "shop_apoio": "Precisa de ajuda para montar sua lista de compra? Nossa equipe orienta os itens ideais para cada ambiente.",
+    "produtos": [
+      {
+        "nome": "Extintor ABC 6kg — Pó Químico Seco",
+        "descricao_curta": "Versátil e eficiente para combate inicial a incêndios das classes A, B e C, indicado para ambientes corporativos, comerciais e residenciais.",
+        "descricao_longa": "O Extintor ABC 6kg é uma solução amplamente utilizada por sua eficiência em diferentes tipos de foco de incêndio: materiais sólidos, líquidos inflamáveis e equipamentos energizados.",
+        "beneficios": [
+          "Atende múltiplas classes de incêndio (A, B e C)",
+          "Excelente custo-benefício para uso geral",
+          "Aplicação versátil em diferentes ambientes",
+          "Fácil operação em situações emergenciais"
+        ],
+        "aplicacao": "Escritórios, condomínios, lojas, áreas administrativas, estacionamentos e ambientes com equipamentos elétricos."
+      },
+      {
+        "nome": "Extintor CO2 6kg — Dióxido de Carbono",
+        "descricao_curta": "Indicado para incêndios em equipamentos elétricos, sem deixar resíduos após a aplicação.",
+        "descricao_longa": "O Extintor CO2 6kg é recomendado para proteção de áreas com painéis elétricos, servidores, laboratórios e equipamentos sensíveis.",
+        "beneficios": [
+          "Não deixa resíduos",
+          "Indicado para riscos elétricos",
+          "Preserva equipamentos sensíveis",
+          "Alta eficiência em princípios de incêndio classe C e B"
+        ],
+        "aplicacao": "CPDs, salas de TI, quadros elétricos, laboratórios, consultórios e áreas técnicas."
+      },
+      {
+        "nome": "Mangueira de Incêndio Tipo 2 — 1.1/2” 15m",
+        "descricao_curta": "Mangueira robusta para uso em edificações comerciais e industriais, com resistência e flexibilidade para operações de combate.",
+        "descricao_longa": "A Mangueira Tipo 2 foi desenvolvida para uso em sistemas de hidrantes e combate a incêndio em ambientes que demandam confiabilidade operacional.",
+        "beneficios": [
+          "Resistência mecânica e durabilidade",
+          "Flexibilidade para operação rápida",
+          "Compatibilidade com sistemas de hidrantes",
+          "Mais segurança no atendimento emergencial"
+        ],
+        "aplicacao": "Condomínios, galpões, centros logísticos, indústrias e prédios comerciais."
+      },
+      {
+        "nome": "Placas de Sinalização de Emergência — Fotoluminescentes",
+        "descricao_curta": "Sinalização clara para rotas de fuga, equipamentos e alertas de emergência, com alta visibilidade em baixa luminosidade.",
+        "descricao_longa": "As placas fotoluminescentes são essenciais para orientar evacuação e localização de equipamentos de combate a incêndio.",
+        "beneficios": [
+          "Melhor orientação em emergências",
+          "Alta visibilidade mesmo sem energia elétrica",
+          "Reforço da segurança coletiva",
+          "Contribui para adequação normativa"
+        ],
+        "aplicacao": "Escadas, corredores, saídas de emergência, halls, garagens e áreas de circulação."
+      }
+    ]
+  },
+  "faq": [
+    {
+      "pergunta": "Quando preciso trocar um extintor?",
+      "resposta": "A substituição ocorre quando há danos estruturais, reprovação em inspeção técnica ou quando o equipamento não atende mais aos critérios normativos aplicáveis."
+    },
+    {
+      "pergunta": "O que é AVCB?",
+      "resposta": "AVCB é o Auto de Vistoria do Corpo de Bombeiros, documento que comprova que a edificação atende às medidas de segurança contra incêndio exigidas para funcionamento regular."
+    },
+    {
+      "pergunta": "De quanto em quanto tempo fazer manutenção de extintores?",
+      "resposta": "A periodicidade é definida por norma técnica e tipo do equipamento. Recomendamos plano anual com inspeções mensais e manutenções programadas."
+    },
+    {
+      "pergunta": "É obrigatório ter extintores em empresas e condomínios?",
+      "resposta": "Na maioria dos casos, sim. A obrigatoriedade varia conforme ocupação, metragem, risco e regulamentações locais."
+    },
+    {
+      "pergunta": "Qual a diferença entre extintor ABC e CO2?",
+      "resposta": "O extintor ABC é versátil e atende classes A, B e C. Já o CO2 é amplamente indicado para equipamentos elétricos por não deixar resíduos após uso."
+    },
+    {
+      "pergunta": "Após usar o extintor, preciso recarregar?",
+      "resposta": "Sim. Mesmo em uso parcial, o extintor deve passar por avaliação e recarga para voltar à condição ideal de funcionamento."
+    },
+    {
+      "pergunta": "Condomínio precisa de treinamento de brigada?",
+      "resposta": "Condomínios e empresas se beneficiam fortemente da capacitação das equipes para resposta inicial, evacuação e condução segura em emergências."
+    },
+    {
+      "pergunta": "Vocês atendem contratos mensais ou anuais?",
+      "resposta": "Sim. Oferecemos planos recorrentes de manutenção e acompanhamento técnico para facilitar a gestão de vencimentos, inspeções e adequações."
+    }
+  ],
+  "depoimentos": [
+    {
+      "nome": "Ricardo Menezes",
+      "tipo_cliente": "Administrador Predial (Condomínio Comercial)",
+      "comentario": "Eles assumiram todo o planejamento das manutenções e hoje temos controle total de vencimentos."
+    },
+    {
+      "nome": "Fernanda Alves",
+      "tipo_cliente": "Gerente Administrativa (Indústria de Alimentos)",
+      "comentario": "O processo foi conduzido com clareza e documentação impecável para auditoria interna."
+    },
+    {
+      "nome": "Marcelo Santana",
+      "tipo_cliente": "Síndico (Condomínio Residencial)",
+      "comentario": "A implantação dos equipamentos ocorreu sem impactar a rotina dos moradores."
+    },
+    {
+      "nome": "Patrícia Nogueira",
+      "tipo_cliente": "Proprietária (Rede de Lojas)",
+      "comentario": "Além do fornecimento, recebemos suporte técnico para padronizar todas as unidades."
+    }
+  ],
+  "contato": {
+    "texto": "Nossa central técnica está pronta para avaliar sua estrutura e montar um plano personalizado de proteção contra incêndio.",
+    "frase_incentivo": "Solicite diagnóstico e receba um cronograma de adequação com prioridades claras.",
+    "telefone": "(11) 3090-2470",
+    "whatsapp": "(11) 99555-8822",
+    "endereco": "Rua Brigadeiro Luís Antônio, 3054 — Bela Vista, São Paulo/SP — CEP 01402-001",
+    "email": "comercial@xxxsafetyprevention.com.br"
+  },
+  "copy_botoes": [
+    "Solicitar orçamento",
+    "Fale com um especialista",
+    "Comprar agora",
+    "Ver produtos",
+    "Saiba mais",
+    "Agendar manutenção",
+    "Regularizar meu AVCB",
+    "Quero treinamento para minha equipe"
+  ],
+  "tom_estilo": [
+    "Confiança",
+    "Segurança",
+    "Autoridade técnica",
+    "Foco em empresas e condomínios",
+    "Linguagem clara e profissional"
+  ],
+  "page_media": {
+    "sobre": {
+      "hero_image": "https://images.unsplash.com/photo-1581091870622-2b2c1a5f4f1f?auto=format&fit=crop&w=1400&q=80",
+      "section_image": "https://images.pexels.com/photos/8961300/pexels-photo-8961300.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "image_alt": "Equipe técnica realizando inspeção preventiva de incêndio"
+    },
+    "servicos": {
+      "hero_image": "https://images.unsplash.com/photo-1578574577315-3fbeb0cecdc2?auto=format&fit=crop&w=1400&q=80",
+      "section_image": "https://images.pexels.com/photos/73833/welding-worker-industrial-73833.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "image_alt": "Serviços técnicos de segurança contra incêndio em ambiente corporativo"
+    },
+    "contato": {
+      "hero_image": "https://images.unsplash.com/photo-1521790797524-b2497295b8a0?auto=format&fit=crop&w=1400&q=80",
+      "section_image": "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "image_alt": "Atendimento comercial corporativo por equipe especializada"
+    }
+  }
+}

@@ -1,0 +1,124 @@
+=== FORMULÁRIO A: ORÇAMENTO ===
+SHORTCODE EXEMPLO: [contact-form-7 title="Orçamento Técnico"]
+
+FORM TEMPLATE:
+<div class="js-ai-quote-form js-lead-form" data-form-type="quote">
+[hidden form_type "quote"]
+[hidden source_page default:get "source_page"]
+[hidden current_url default:get "current_url"]
+[hidden campaign_source default:get "utm_source"]
+<label>Nome completo*
+[text* lead_full_name autocomplete:name]
+</label>
+<label>Empresa/Condomínio
+[text lead_company]
+</label>
+<label>WhatsApp*
+[tel* lead_whatsapp]
+</label>
+<label>E-mail*
+[email* lead_email]
+</label>
+<label>Cidade
+[text lead_city]
+</label>
+<label>Tipo de serviço*
+[select* lead_service_type class:js-service-type "Compra de extintores" "Recarga/manutenção" "AVCB" "Treinamento" "Sinalização" "Outro"]
+</label>
+<label>Urgência*
+[select* lead_urgency class:js-urgency-level "Normal" "Alta" "Imediata"]
+</label>
+<label>Mensagem
+[textarea lead_message]
+</label>
+[acceptance lead_contact_optin]Autorizo contato por WhatsApp, e-mail e telefone.[/acceptance]
+[submit "Solicitar orçamento"]
+</div>
+
+MAIL TEMPLATE:
+Assunto: [Orçamento] [lead_company] - [lead_service_type]
+Corpo:
+Nome: [lead_full_name]
+Empresa/Condomínio: [lead_company]
+WhatsApp: [lead_whatsapp]
+E-mail: [lead_email]
+Cidade: [lead_city]
+Serviço: [lead_service_type]
+Urgência: [lead_urgency]
+Mensagem: [lead_message]
+Aceite de contato: [lead_contact_optin]
+Origem: [source_page]
+URL: [current_url]
+Campanha: [campaign_source]
+
+=== FORMULÁRIO B: AVCB E CONSULTORIA ===
+[hidden form_type "avcb"]
+[hidden source_page default:get "source_page"]
+[hidden current_url default:get "current_url"]
+[hidden campaign_source default:get "utm_source"]
+<label>Nome*
+[text* lead_name]</label>
+<label>Empresa
+[text lead_company]</label>
+<label>WhatsApp*
+[tel* lead_whatsapp]</label>
+<label>E-mail*
+[email* lead_email]</label>
+<label>Tipo de imóvel*
+[select* lead_property_type "Comércio" "Condomínio" "Indústria" "Escritório" "Outro"]</label>
+<label>Possui AVCB atualmente?*
+[radio* lead_has_avcb use_label_element "Sim" "Não" "Não sei"]</label>
+<label>Área aproximada do imóvel
+[text lead_property_area]</label>
+<label>Mensagem
+[textarea lead_message]</label>
+[submit "Solicitar consultoria AVCB"]
+
+MAIL: Assunto [AVCB] [lead_company] - [lead_property_type]
+Campos: [lead_name] [lead_company] [lead_whatsapp] [lead_email] [lead_property_type] [lead_has_avcb] [lead_property_area] [lead_message] [source_page] [current_url] [campaign_source]
+
+=== FORMULÁRIO C: MANUTENÇÃO DE EXTINTORES ===
+[hidden form_type "maintenance"]
+[hidden source_page default:get "source_page"]
+[hidden current_url default:get "current_url"]
+[hidden campaign_source default:get "utm_source"]
+<label>Nome*
+[text* lead_name]</label>
+<label>Empresa
+[text lead_company]</label>
+<label>WhatsApp*
+[tel* lead_whatsapp]</label>
+<label>E-mail*
+[email* lead_email]</label>
+<label>Quantidade aproximada de extintores
+[number lead_extinguisher_quantity min:1]</label>
+<label>Data da última manutenção
+[date lead_last_maintenance]</label>
+<label>Localização
+[text lead_location]</label>
+<label>Mensagem
+[textarea lead_message]</label>
+[submit "Solicitar manutenção"]
+
+MAIL: Assunto [Manutenção] [lead_company] - [lead_extinguisher_quantity] extintores
+Campos: [lead_name] [lead_company] [lead_whatsapp] [lead_email] [lead_extinguisher_quantity] [lead_last_maintenance] [lead_location] [lead_message] [source_page] [current_url] [campaign_source]
+
+=== FORMULÁRIO D: CONTATO GERAL ===
+[hidden form_type "contact"]
+[hidden source_page default:get "source_page"]
+[hidden current_url default:get "current_url"]
+[hidden campaign_source default:get "utm_source"]
+<label>Nome*
+[text* lead_name]</label>
+<label>E-mail*
+[email* lead_email]</label>
+<label>WhatsApp
+[tel lead_whatsapp]</label>
+<label>Assunto*
+[text* lead_subject]</label>
+<label>Mensagem*
+[textarea* lead_message]</label>
+[submit "Enviar mensagem"]
+
+MAIL: Assunto [Contato] [lead_subject]
+Campos: [lead_name] [lead_email] [lead_whatsapp] [lead_subject] [lead_message] [source_page] [current_url] [campaign_source]
