@@ -197,7 +197,7 @@
 
 .fire-hero__copy h1 {
   margin-bottom: 26px;
-  font-size: clamp(48px, 6.4vw, 108px);
+  font-size: clamp(48px, 6.4vw, 64px);
   line-height: .94;
   text-wrap: balance;
 }
