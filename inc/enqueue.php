@@ -16,14 +16,22 @@ function xxx_safety_scripts() {
 	$theme_version = wp_get_theme()->get( 'Version' );
 	$script_deps   = array();
 	$style_deps    = array( 'xxx-safety-main' );
+	$main_css_path = get_template_directory() . '/assets/css/main.css';
+	$home_css_path = get_template_directory() . '/assets/css/front-page.css';
+	$main_js_path  = get_template_directory() . '/assets/js/main.js';
+	$style_path    = get_stylesheet_directory() . '/style.css';
+	$main_css_ver  = file_exists( $main_css_path ) ? (string) filemtime( $main_css_path ) : $theme_version;
+	$home_css_ver  = file_exists( $home_css_path ) ? (string) filemtime( $home_css_path ) : $theme_version;
+	$main_js_ver   = file_exists( $main_js_path ) ? (string) filemtime( $main_js_path ) : $theme_version;
+	$style_ver     = file_exists( $style_path ) ? (string) filemtime( $style_path ) : $theme_version;
 
 	wp_enqueue_style( 'xxx-safety-fonts', 'https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Noto+Serif:wght@300;400;500;600;700&display=swap', array(), null );
-	wp_enqueue_style( 'xxx-safety-main', get_template_directory_uri() . '/assets/css/main.css', array( 'xxx-safety-fonts' ), $theme_version );
+	wp_enqueue_style( 'xxx-safety-main', get_template_directory_uri() . '/assets/css/main.css', array( 'xxx-safety-fonts' ), $main_css_ver );
 	if ( is_front_page() ) {
-		wp_enqueue_style( 'xxx-safety-front-page', get_template_directory_uri() . '/assets/css/front-page.css', array( 'xxx-safety-main' ), $theme_version );
+		wp_enqueue_style( 'xxx-safety-front-page', get_template_directory_uri() . '/assets/css/front-page.css', array( 'xxx-safety-main' ), $home_css_ver );
 		$style_deps = array( 'xxx-safety-front-page' );
 	}
-	wp_enqueue_style( 'xxx-safety-style', get_stylesheet_uri(), $style_deps, $theme_version );
+	wp_enqueue_style( 'xxx-safety-style', get_stylesheet_uri(), $style_deps, $style_ver );
 
 	if ( is_front_page() && xxx_safety_get_theme_mod( 'enable_animations', true ) ) {
 		wp_enqueue_script( 'gsap', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js', array(), '3.12.5', true );
@@ -31,7 +39,7 @@ function xxx_safety_scripts() {
 		$script_deps = array( 'gsap', 'gsap-scrolltrigger' );
 	}
 
-	wp_enqueue_script( 'xxx-safety-main', get_template_directory_uri() . '/assets/js/main.js', $script_deps, $theme_version, true );
+	wp_enqueue_script( 'xxx-safety-main', get_template_directory_uri() . '/assets/js/main.js', $script_deps, $main_js_ver, true );
 	wp_localize_script(
 		'xxx-safety-main',
 		'xxxSafetyData',
