@@ -107,8 +107,8 @@ $trust_items = array(
 );
 
 $services = array(
-	array( 'title' => __( 'Recarga de extintores', 'xxx-safety-prevention' ), 'text' => __( 'Controle de validade, lacre, teste e recarga para manter equipamentos prontos para uso e fiscalização.', 'xxx-safety-prevention' ), 'image' => $visuals['hero'] ),
-	array( 'title' => __( 'Manutenção preventiva', 'xxx-safety-prevention' ), 'text' => __( 'Inspeções programadas para identificar falhas antes que elas comprometam a segurança da operação.', 'xxx-safety-prevention' ), 'image' => $visuals['maintenance'] ),
+	array( 'title' => __( 'Recarga de extintores', 'xxx-safety-prevention' ), 'text' => __( 'Controle de validade, lacre, teste e recarga para manter equipamentos prontos para uso e fiscalização.', 'xxx-safety-prevention' ), 'image' => $visuals['maintenance'] ),
+	array( 'title' => __( 'Manutenção preventiva', 'xxx-safety-prevention' ), 'text' => __( 'Inspeções programadas para identificar falhas antes que elas comprometam a segurança da operação.', 'xxx-safety-prevention' ), 'image' => $visuals['building'] ),
 	array( 'title' => __( 'Venda e instalação', 'xxx-safety-prevention' ), 'text' => __( 'Extintores ABC, CO2, sinalização, suportes e equipamentos definidos conforme o risco do ambiente.', 'xxx-safety-prevention' ), 'image' => $visuals['inspection'] ),
 	array( 'title' => __( 'Hidrantes e mangueiras', 'xxx-safety-prevention' ), 'text' => __( 'Mangueiras, abrigos, adaptadores e componentes para sistemas de combate bem dimensionados.', 'xxx-safety-prevention' ), 'image' => $visuals['hydrant'] ),
 );
