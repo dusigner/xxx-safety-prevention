@@ -68,7 +68,7 @@ if ( ! $quote_shortcode ) {
 	$quote_shortcode = xxx_safety_get_theme_mod( 'contact_form_shortcode', '' );
 }
 ?>
-<main id="primary" class="site-main fire-home">
+<main id="primary" class="site-main fire-home fire-home--stable">
 	<section class="fire-hero" id="inicio" aria-labelledby="hero-title">
 		<div class="fire-hero__texture" aria-hidden="true"></div>
 		<div class="fire-hero__glow" aria-hidden="true"></div>
