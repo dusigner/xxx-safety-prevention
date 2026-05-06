@@ -15,9 +15,13 @@
     menuToggle.setAttribute('aria-expanded', 'false');
   };
 
-  const setupAnimations = () => {
-    if (reduceMotion || document.body.classList.contains('xxx-reduced-motion')) {
-      document.querySelectorAll('.xxx-animate').forEach((node) => node.classList.add('is-visible'));
+  const showWithoutMotion = () => {
+    document.querySelectorAll('.xxx-animate').forEach((node) => node.classList.add('is-visible'));
+  };
+
+  const setupFallbackAnimations = () => {
+    if (!('IntersectionObserver' in window)) {
+      showWithoutMotion();
       return;
     }
 
@@ -28,16 +32,128 @@
           obs.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.15, rootMargin: '0px 0px -30px 0px' });
+    }, { threshold: 0.16, rootMargin: '0px 0px -40px 0px' });
 
     document.querySelectorAll('.xxx-animate').forEach((node) => observer.observe(node));
   };
 
+  const setupGsapAnimations = () => {
+    if (reduceMotion || document.body.classList.contains('xxx-reduced-motion')) {
+      showWithoutMotion();
+      return;
+    }
+
+    const gsapAvailable = window.gsap && window.ScrollTrigger;
+    if (!gsapAvailable) {
+      setupFallbackAnimations();
+      return;
+    }
+
+    const { gsap, ScrollTrigger } = window;
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsap.set('.xxx-animate', { autoAlpha: 0, y: 28 });
+    gsap.set('.premium-hero .hero-copy > *', { autoAlpha: 0, y: 24 });
+    gsap.set('.hero-media-wrap', { autoAlpha: 0, x: 28, scale: 0.97 });
+
+    const heroTimeline = gsap.timeline({ defaults: { ease: 'power3.out' } });
+    heroTimeline
+      .to('.premium-hero .hero-copy > *', {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.75,
+        stagger: 0.09
+      })
+      .to('.hero-media-wrap', {
+        autoAlpha: 1,
+        x: 0,
+        scale: 1,
+        duration: 0.9
+      }, '-=0.55');
+
+    gsap.utils.toArray('.xxx-animate').forEach((node) => {
+      gsap.to(node, {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.68,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: node,
+          start: 'top 84%',
+          once: true
+        }
+      });
+    });
+
+    gsap.utils.toArray('.card-grid, .reason-grid, .product-grid, .steps-grid').forEach((grid) => {
+      const items = grid.children;
+      if (!items.length) return;
+
+      gsap.fromTo(items, {
+        autoAlpha: 0,
+        y: 26
+      }, {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.62,
+        stagger: 0.08,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: grid,
+          start: 'top 82%',
+          once: true
+        }
+      });
+    });
+
+    gsap.to('.hero-fire', {
+      yPercent: 12,
+      scale: 1.08,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '.premium-hero',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: 0.7
+      }
+    });
+
+    gsap.to('.hero-media', {
+      y: -28,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '.premium-hero',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: 0.8
+      }
+    });
+
+    gsap.utils.toArray('.js-count').forEach((counter) => {
+      const target = Number(counter.dataset.count || counter.textContent);
+      const state = { value: 0 };
+
+      gsap.to(state, {
+        value: target,
+        duration: 1.4,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: counter,
+          start: 'top 88%',
+          once: true
+        },
+        onUpdate: () => {
+          counter.textContent = Math.round(state.value);
+        }
+      });
+    });
+  };
+
   const setupFormData = () => {
-    document.querySelectorAll('.wpcf7 form').forEach((form) => {
+    document.querySelectorAll('.wpcf7 form, .fallback-quote-form').forEach((form) => {
       const wrapper = form.closest('.js-lead-form') || form.closest('.wpcf7');
       const formType = wrapper?.dataset.formType || 'general';
-      const serviceField = form.querySelector('.js-service-type select, select.js-service-type');
+      const serviceField = form.querySelector('.js-service-type select, select.js-service-type, select[name="servico"]');
 
       if (wrapper) {
         wrapper.dataset.formType = formType;
@@ -108,6 +224,6 @@
     });
   }
 
-  setupAnimations();
+  setupGsapAnimations();
   setupFormData();
 })();

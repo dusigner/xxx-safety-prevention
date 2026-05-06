@@ -12,8 +12,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 $whatsapp = preg_replace( '/\D+/', '', xxx_safety_get_theme_mod( 'whatsapp_number', '' ) );
 $email    = xxx_safety_get_theme_mod( 'email', '' );
 $phone    = xxx_safety_get_theme_mod( 'phone', '' );
+$footer_id = is_front_page() ? 'rodape-contato' : 'contato';
 ?>
-<footer class="site-footer" id="contato">
+<footer class="site-footer" id="<?php echo esc_attr( $footer_id ); ?>">
 	<div class="container footer-grid">
 		<div>
 			<h3><?php bloginfo( 'name' ); ?></h3>
