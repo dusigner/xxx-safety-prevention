@@ -53,8 +53,9 @@
     gsap.registerPlugin(ScrollTrigger);
 
     gsap.set('.xxx-animate', { autoAlpha: 0, y: 28 });
-    gsap.set('.premium-hero .hero-copy > *', { autoAlpha: 0, y: 24 });
-    gsap.set('.hero-media-wrap', { autoAlpha: 0, x: 28, scale: 0.97 });
+    gsap.set('.premium-hero .hero-copy > *', { autoAlpha: 0, y: 28 });
+    gsap.set('.hero-media-wrap, .hero-visual-stack', { autoAlpha: 0, x: 34, scale: 0.96 });
+    gsap.set('.hero-floating-card', { autoAlpha: 0, y: 18, scale: 0.96 });
 
     const heroTimeline = gsap.timeline({ defaults: { ease: 'power3.out' } });
     heroTimeline
@@ -64,12 +65,19 @@
         duration: 0.75,
         stagger: 0.09
       })
-      .to('.hero-media-wrap', {
+      .to('.hero-media-wrap, .hero-visual-stack', {
         autoAlpha: 1,
         x: 0,
         scale: 1,
         duration: 0.9
-      }, '-=0.55');
+      }, '-=0.55')
+      .to('.hero-floating-card', {
+        autoAlpha: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.52,
+        stagger: 0.08
+      }, '-=0.35');
 
     gsap.utils.toArray('.xxx-animate').forEach((node) => {
       gsap.to(node, {
@@ -85,7 +93,7 @@
       });
     });
 
-    gsap.utils.toArray('.card-grid, .reason-grid, .product-grid, .steps-grid').forEach((grid) => {
+    gsap.utils.toArray('.card-grid, .reason-grid, .product-grid, .steps-grid, .service-showcase-grid, .product-cards, .testimonial-layout, .segment-cards, .timeline-steps').forEach((grid) => {
       const items = grid.children;
       if (!items.length) return;
 
@@ -118,6 +126,41 @@
       }
     });
 
+    gsap.to('.hero-smoke--one', {
+      yPercent: -8,
+      xPercent: 3,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '.premium-hero',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: 0.9
+      }
+    });
+
+    gsap.to('.hero-smoke--two', {
+      yPercent: 10,
+      xPercent: -4,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '.premium-hero',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: 1
+      }
+    });
+
+    gsap.to('.hero-particles', {
+      yPercent: 18,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '.premium-hero',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: 1.2
+      }
+    });
+
     gsap.to('.hero-media', {
       y: -28,
       ease: 'none',
@@ -127,6 +170,26 @@
         end: 'bottom top',
         scrub: 0.8
       }
+    });
+
+    gsap.utils.toArray('.image-card, .service-cinema-card, .product-cinema-card').forEach((card) => {
+      const image = card.querySelector('img');
+      if (!image) return;
+
+      gsap.fromTo(image, {
+        scale: 1.08,
+        yPercent: 4
+      }, {
+        scale: 1,
+        yPercent: 0,
+        duration: 1.1,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: card,
+          start: 'top 86%',
+          once: true
+        }
+      });
     });
 
     gsap.utils.toArray('.js-count').forEach((counter) => {
