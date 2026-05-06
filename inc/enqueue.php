@@ -16,7 +16,7 @@ function xxx_safety_scripts() {
 	$theme_version = wp_get_theme()->get( 'Version' );
 	$script_deps   = array();
 
-	wp_enqueue_style( 'xxx-safety-fonts', 'https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap', array(), null );
+	wp_enqueue_style( 'xxx-safety-fonts', 'https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Noto+Serif:wght@300;400;500;600;700&display=swap', array(), null );
 	wp_enqueue_style( 'xxx-safety-main', get_template_directory_uri() . '/assets/css/main.css', array( 'xxx-safety-fonts' ), $theme_version );
 	wp_enqueue_style( 'xxx-safety-style', get_stylesheet_uri(), array( 'xxx-safety-main' ), $theme_version );
 

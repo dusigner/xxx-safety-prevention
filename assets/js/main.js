@@ -53,19 +53,19 @@
     gsap.registerPlugin(ScrollTrigger);
 
     gsap.set('.xxx-animate', { autoAlpha: 0, y: 28 });
-    gsap.set('.premium-hero .hero-copy > *', { autoAlpha: 0, y: 28 });
-    gsap.set('.hero-media-wrap, .hero-visual-stack', { autoAlpha: 0, x: 34, scale: 0.96 });
+    gsap.set('.premium-hero .hero-copy > *, .fire-hero__copy > *', { autoAlpha: 0, y: 28 });
+    gsap.set('.hero-media-wrap, .hero-visual-stack, .fire-hero__visual', { autoAlpha: 0, x: 34, scale: 0.96 });
     gsap.set('.hero-floating-card', { autoAlpha: 0, y: 18, scale: 0.96 });
 
     const heroTimeline = gsap.timeline({ defaults: { ease: 'power3.out' } });
     heroTimeline
-      .to('.premium-hero .hero-copy > *', {
+      .to('.premium-hero .hero-copy > *, .fire-hero__copy > *', {
         autoAlpha: 1,
         y: 0,
         duration: 0.75,
         stagger: 0.09
       })
-      .to('.hero-media-wrap, .hero-visual-stack', {
+      .to('.hero-media-wrap, .hero-visual-stack, .fire-hero__visual', {
         autoAlpha: 1,
         x: 0,
         scale: 1,
@@ -93,7 +93,7 @@
       });
     });
 
-    gsap.utils.toArray('.card-grid, .reason-grid, .product-grid, .steps-grid, .service-showcase-grid, .product-cards, .testimonial-layout, .segment-cards, .timeline-steps').forEach((grid) => {
+    gsap.utils.toArray('.card-grid, .reason-grid, .product-grid, .steps-grid, .service-showcase-grid, .product-cards, .testimonial-layout, .segment-cards, .timeline-steps, .fire-services__grid, .fire-product-list, .fire-process__steps, .fire-why__grid, .fire-testimonials__grid, .fire-trust__grid').forEach((grid) => {
       const items = grid.children;
       if (!items.length) return;
 
@@ -161,6 +161,52 @@
       }
     });
 
+    gsap.to('.fire-hero__smoke--a', {
+      yPercent: -8,
+      xPercent: 4,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '.fire-hero',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: 1
+      }
+    });
+
+    gsap.to('.fire-hero__smoke--b', {
+      yPercent: 10,
+      xPercent: -5,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '.fire-hero',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: 1.1
+      }
+    });
+
+    gsap.to('.fire-hero__sparks', {
+      yPercent: 16,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '.fire-hero',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: 1.3
+      }
+    });
+
+    gsap.to('.fire-hero__visual img', {
+      y: -34,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '.fire-hero',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: 0.9
+      }
+    });
+
     gsap.to('.hero-media', {
       y: -28,
       ease: 'none',
@@ -172,7 +218,7 @@
       }
     });
 
-    gsap.utils.toArray('.image-card, .service-cinema-card, .product-cinema-card').forEach((card) => {
+    gsap.utils.toArray('.image-card, .service-cinema-card, .product-cinema-card, .fire-service, .fire-products__image, .fire-segments__image').forEach((card) => {
       const image = card.querySelector('img');
       if (!image) return;
 
