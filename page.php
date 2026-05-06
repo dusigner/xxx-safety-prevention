@@ -6,12 +6,16 @@
  */
 
 get_header();
-xxx_safety_inner_hero( get_the_title() );
 $slug       = get_post_field( 'post_name', get_the_ID() );
 $is_contact = 'contato' === $slug;
+$is_cart    = function_exists( 'is_cart' ) && is_cart();
+
+if ( ! $is_cart ) {
+	xxx_safety_inner_hero( get_the_title() );
+}
 ?>
 <main id="primary" class="site-main">
-	<div class="container section">
+	<div class="container <?php echo $is_cart ? 'xxx-cart-container' : 'section'; ?>">
 		<?php if ( $is_contact ) : ?>
 			<section class="contact-page-grid">
 				<div class="contact-form-main xxx-animate xxx-fade-up">
@@ -41,24 +45,28 @@ $is_contact = 'contato' === $slug;
 		<?php endif; ?>
 
 		<?php while ( have_posts() ) : the_post(); ?>
-			<article id="post-<?php the_ID(); ?>" <?php post_class( 'page-content card xxx-animate xxx-fade-up' ); ?>>
+			<article id="post-<?php the_ID(); ?>" <?php post_class( $is_cart ? 'xxx-cart-content' : 'page-content card xxx-animate xxx-fade-up' ); ?>>
 				<?php the_content(); ?>
 			</article>
 		<?php endwhile; ?>
 
-		<section class="card-grid cols-3 benefits-grid">
-			<?php
-			$benefits = array(
-				array( 'title' => 'Atendimento consultivo', 'text' => 'Mapeamos o contexto técnico antes de propor qualquer escopo.' ),
-				array( 'title' => 'Execução com SLA', 'text' => 'Cronograma definido com previsibilidade para gestores.' ),
-				array( 'title' => 'Documentação organizada', 'text' => 'Registros claros para auditorias e conformidade interna.' ),
-			);
-			foreach ( $benefits as $benefit ) {
-				get_template_part( 'template-parts/service-card', null, $benefit );
-			}
-			?>
-		</section>
+		<?php if ( ! $is_cart ) : ?>
+			<section class="card-grid cols-3 benefits-grid">
+				<?php
+				$benefits = array(
+					array( 'title' => 'Atendimento consultivo', 'text' => 'Mapeamos o contexto técnico antes de propor qualquer escopo.' ),
+					array( 'title' => 'Execução com SLA', 'text' => 'Cronograma definido com previsibilidade para gestores.' ),
+					array( 'title' => 'Documentação organizada', 'text' => 'Registros claros para auditorias e conformidade interna.' ),
+				);
+				foreach ( $benefits as $benefit ) {
+					get_template_part( 'template-parts/service-card', null, $benefit );
+				}
+				?>
+			</section>
+		<?php endif; ?>
 	</div>
-	<?php xxx_safety_bottom_cta(); ?>
+	<?php if ( ! $is_cart ) : ?>
+		<?php xxx_safety_bottom_cta(); ?>
+	<?php endif; ?>
 </main>
 <?php get_footer();
