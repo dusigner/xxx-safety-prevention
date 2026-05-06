@@ -389,7 +389,7 @@
       const timeline = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
       if (media) {
-        timeline.to(media, { autoAlpha: 1, y: 0, duration: 0.88 }, 0);
+        timeline.to(media, { autoAlpha: 1, y: 0, duration: 0.88, clearProps: 'transform' }, 0);
       }
 
       if (galleryViewport) {
