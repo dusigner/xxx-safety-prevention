@@ -45,23 +45,58 @@ if ( ! function_exists( 'xxx_safety_home_image_url' ) ) {
 	}
 }
 
+if ( ! function_exists( 'xxx_safety_home_local_image' ) ) {
+	/**
+	 * Return a local image descriptor with a production-safe fallback.
+	 *
+	 * @param string $filename        Preferred file name inside assets/images.
+	 * @param int    $width           Preferred image width.
+	 * @param int    $height          Preferred image height.
+	 * @param string $fallback        Fallback file name inside assets/images.
+	 * @param int    $fallback_width  Fallback width.
+	 * @param int    $fallback_height Fallback height.
+	 * @return array
+	 */
+	function xxx_safety_home_local_image( $filename, $width, $height, $fallback = 'fire-extinguisher-hero.png', $fallback_width = 536, $fallback_height = 790 ) {
+		$filename = ltrim( $filename, '/' );
+		$path     = get_template_directory() . '/assets/images/' . $filename;
+
+		if ( file_exists( $path ) ) {
+			return array(
+				'url'    => xxx_safety_home_asset_url( $filename ),
+				'width'  => $width,
+				'height' => $height,
+			);
+		}
+
+		return array(
+			'url'    => xxx_safety_home_asset_url( $fallback ),
+			'width'  => $fallback_width,
+			'height' => $fallback_height,
+		);
+	}
+}
+
 $main_cta_text = xxx_safety_get_theme_mod( 'main_cta_text', __( 'Solicitar orçamento agora', 'xxx-safety-prevention' ) );
 $main_cta_link = xxx_safety_get_theme_mod( 'main_cta_link', '#contato' );
 $whatsapp      = preg_replace( '/\D+/', '', xxx_safety_get_theme_mod( 'whatsapp_number', '' ) );
 $whatsapp_link = $whatsapp ? 'https://wa.me/' . $whatsapp . '?text=' . rawurlencode( 'Olá, quero solicitar um orçamento para segurança contra incêndio.' ) : '#contato';
 $image_fallback = xxx_safety_home_asset_url( 'fire-extinguisher-hero.png' );
-$hero_image    = xxx_safety_home_image_url( xxx_safety_get_theme_mod( 'hero_image', '' ), $image_fallback );
+$hero_product  = xxx_safety_home_local_image( 'product-1.jpg', 832, 1248 );
+$hero_image    = xxx_safety_home_image_url( xxx_safety_get_theme_mod( 'hero_image', '' ), $hero_product['url'] );
 $phone         = xxx_safety_get_theme_mod( 'phone', '(11) 3478-2200' );
 $email         = xxx_safety_get_theme_mod( 'email', 'contato@empresa.com.br' );
 
 $visuals = array(
-	'hero'        => array( 'url' => $hero_image, 'width' => 536, 'height' => 790 ),
+	'hero'        => array( 'url' => $hero_image, 'width' => $hero_product['width'], 'height' => $hero_product['height'] ),
 	'fallback'    => array( 'url' => $image_fallback, 'width' => 536, 'height' => 790 ),
-	'maintenance' => array( 'url' => xxx_safety_home_asset_url( 'fire-service-maintenance.jpg' ), 'width' => 1280, 'height' => 914 ),
-	'inspection'  => array( 'url' => xxx_safety_home_asset_url( 'fire-office-extinguisher.jpg' ), 'width' => 1280, 'height' => 1707 ),
-	'signage'     => array( 'url' => xxx_safety_home_asset_url( 'fire-emergency-signage.jpg' ), 'width' => 1280, 'height' => 1707 ),
-	'hydrant'     => array( 'url' => xxx_safety_home_asset_url( 'fire-hose-equipment.jpg' ), 'width' => 1280, 'height' => 853 ),
-	'building'    => array( 'url' => xxx_safety_home_asset_url( 'fire-commercial-building.jpg' ), 'width' => 1280, 'height' => 960 ),
+	'hero_rear'   => xxx_safety_home_local_image( 'product-2.jpg', 832, 1248 ),
+	'hero_detail' => xxx_safety_home_local_image( 'product-4.jpg', 832, 1248 ),
+	'maintenance' => xxx_safety_home_local_image( 'fire-service-maintenance.jpg', 1280, 914 ),
+	'inspection'  => xxx_safety_home_local_image( 'fire-office-extinguisher.jpg', 1280, 1707 ),
+	'signage'     => xxx_safety_home_local_image( 'fire-emergency-signage.jpg', 1280, 1707 ),
+	'hydrant'     => xxx_safety_home_local_image( 'fire-hose-equipment.jpg', 1280, 853 ),
+	'building'    => xxx_safety_home_local_image( 'fire-commercial-building.jpg', 1280, 960 ),
 );
 
 $trust_items = array(
@@ -113,9 +148,15 @@ if ( ! $quote_shortcode ) {
 	<section class="fire-hero" id="inicio" aria-labelledby="hero-title">
 		<div class="fire-hero__texture" aria-hidden="true"></div>
 		<div class="fire-hero__glow" aria-hidden="true"></div>
+		<div class="fire-hero__heat" aria-hidden="true"></div>
+		<div class="fire-hero__haze fire-hero__haze--back" aria-hidden="true"></div>
 		<div class="fire-hero__smoke fire-hero__smoke--a" aria-hidden="true"></div>
 		<div class="fire-hero__smoke fire-hero__smoke--b" aria-hidden="true"></div>
+		<div class="fire-hero__haze fire-hero__haze--front" aria-hidden="true"></div>
 		<div class="fire-hero__sparks" aria-hidden="true"></div>
+		<div class="fire-hero__ash" aria-hidden="true"></div>
+		<div class="fire-hero__light fire-hero__light--a" aria-hidden="true"></div>
+		<div class="fire-hero__light fire-hero__light--b" aria-hidden="true"></div>
 		<div class="container fire-hero__grid">
 			<div class="fire-hero__copy">
 				<p class="fire-kicker"><?php esc_html_e( 'PROTEÇÃO CONTRA INCÊNDIO', 'xxx-safety-prevention' ); ?></p>
@@ -132,11 +173,31 @@ if ( ! $quote_shortcode ) {
 				</div>
 			</div>
 			<div class="fire-hero__visual">
-				<div class="fire-hero__halo" aria-hidden="true"></div>
-				<img src="<?php echo esc_url( $visuals['hero']['url'] ); ?>" alt="<?php esc_attr_e( 'Extintor de incêndio em destaque com luz dramática', 'xxx-safety-prevention' ); ?>" width="<?php echo esc_attr( $visuals['hero']['width'] ); ?>" height="<?php echo esc_attr( $visuals['hero']['height'] ); ?>" fetchpriority="high" decoding="async" data-img-fallback="<?php echo esc_url( $image_fallback ); ?>" />
-				<div class="fire-hero__seal">
-					<strong><?php esc_html_e( 'INMETRO', 'xxx-safety-prevention' ); ?></strong>
-					<span><?php esc_html_e( 'equipamentos e recargas certificadas', 'xxx-safety-prevention' ); ?></span>
+				<div class="fire-hero__stage" data-depth="10" aria-label="<?php esc_attr_e( 'Composição premium de extintores certificados', 'xxx-safety-prevention' ); ?>">
+					<div class="fire-hero__halo" data-depth="14" aria-hidden="true"></div>
+					<div class="fire-hero__beam" data-depth="9" aria-hidden="true"></div>
+					<div class="fire-hero__floor" data-depth="5" aria-hidden="true"></div>
+					<figure class="fire-hero__product fire-hero__product--rear" data-depth="18" aria-hidden="true">
+						<img src="<?php echo esc_url( $visuals['hero_rear']['url'] ); ?>" alt="" width="<?php echo esc_attr( $visuals['hero_rear']['width'] ); ?>" height="<?php echo esc_attr( $visuals['hero_rear']['height'] ); ?>" loading="lazy" decoding="async" data-img-fallback="<?php echo esc_url( $image_fallback ); ?>" />
+					</figure>
+					<figure class="fire-hero__product fire-hero__product--main" data-depth="30">
+						<img src="<?php echo esc_url( $visuals['hero']['url'] ); ?>" alt="<?php esc_attr_e( 'Extintor de incêndio em destaque com luz dramática', 'xxx-safety-prevention' ); ?>" width="<?php echo esc_attr( $visuals['hero']['width'] ); ?>" height="<?php echo esc_attr( $visuals['hero']['height'] ); ?>" fetchpriority="high" decoding="async" data-img-fallback="<?php echo esc_url( $image_fallback ); ?>" />
+					</figure>
+					<figure class="fire-hero__product fire-hero__product--detail" data-depth="24" aria-hidden="true">
+						<img src="<?php echo esc_url( $visuals['hero_detail']['url'] ); ?>" alt="" width="<?php echo esc_attr( $visuals['hero_detail']['width'] ); ?>" height="<?php echo esc_attr( $visuals['hero_detail']['height'] ); ?>" loading="lazy" decoding="async" data-img-fallback="<?php echo esc_url( $image_fallback ); ?>" />
+					</figure>
+					<div class="fire-hero__seal fire-hero__glass" data-depth="36">
+						<strong><?php esc_html_e( 'INMETRO', 'xxx-safety-prevention' ); ?></strong>
+						<span><?php esc_html_e( 'equipamentos e recargas certificadas', 'xxx-safety-prevention' ); ?></span>
+					</div>
+					<div class="fire-hero__mini fire-hero__mini--pressure fire-hero__glass" data-depth="32" aria-hidden="true">
+						<span><?php esc_html_e( 'Pressão', 'xxx-safety-prevention' ); ?></span>
+						<strong><?php esc_html_e( 'OK', 'xxx-safety-prevention' ); ?></strong>
+					</div>
+					<div class="fire-hero__mini fire-hero__mini--response fire-hero__glass" data-depth="28" aria-hidden="true">
+						<span><?php esc_html_e( 'Resposta', 'xxx-safety-prevention' ); ?></span>
+						<strong><?php esc_html_e( '24h', 'xxx-safety-prevention' ); ?></strong>
+					</div>
 				</div>
 			</div>
 			<div class="fire-hero__metrics" aria-label="<?php esc_attr_e( 'Indicadores de confiança', 'xxx-safety-prevention' ); ?>">

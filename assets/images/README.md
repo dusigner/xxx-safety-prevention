@@ -8,3 +8,4 @@ Local image assets used by `front-page.php` to avoid broken external hotlinks in
 - `fire-hose-equipment.jpg`: Wikimedia Commons, "Fire Hose (43333435835).jpg", CC0.
 - `fire-commercial-building.jpg`: Wikimedia Commons, "Dulles State Office Building Interior looking forward.jpg", CC0.
 - `fire-extinguisher-hero.png`: Local hero fallback asset.
+- `product-1.jpg` to `product-4.jpg`: Local extinguisher product photos used by the cinematic hero.

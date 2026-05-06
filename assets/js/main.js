@@ -125,6 +125,7 @@
     const hero = document.querySelector('.fire-hero');
     if (!hero) return;
 
+    const compactMotion = window.matchMedia('(max-width: 720px)').matches;
     const words = splitHeroTitle();
     const title = hero.querySelector('#hero-title');
     const kicker = hero.querySelector('.fire-kicker');
@@ -132,20 +133,30 @@
     const actions = qsa('.fire-hero__actions .fire-btn', hero);
     const badges = qsa('.fire-hero__badges span', hero);
     const visual = hero.querySelector('.fire-hero__visual');
-    const visualImage = hero.querySelector('.fire-hero__visual img');
-    const seal = hero.querySelector('.fire-hero__seal');
+    const stage = hero.querySelector('.fire-hero__stage');
+    const mainProduct = hero.querySelector('.fire-hero__product--main');
+    const rearProduct = hero.querySelector('.fire-hero__product--rear');
+    const detailProduct = hero.querySelector('.fire-hero__product--detail');
+    const products = qsa('.fire-hero__product', hero);
+    const glassItems = qsa('.fire-hero__glass', hero);
     const metrics = qsa('.fire-hero__metrics > div', hero);
-    const atmosphere = qsa('.fire-hero__smoke, .fire-hero__sparks, .fire-hero__glow', hero);
+    const atmosphere = qsa('.fire-hero__smoke, .fire-hero__sparks, .fire-hero__glow, .fire-hero__heat, .fire-hero__haze, .fire-hero__ash, .fire-hero__light', hero);
     const halo = hero.querySelector('.fire-hero__halo');
+    const beam = hero.querySelector('.fire-hero__beam');
+    const floor = hero.querySelector('.fire-hero__floor');
 
     gsap.set(atmosphere, { autoAlpha: 0 });
     gsap.set([kicker, lead].filter(Boolean), { autoAlpha: 0, y: 26 });
     gsap.set(words.length ? words : title, { autoAlpha: 0, y: 34, rotateX: -12 });
     gsap.set(actions, { autoAlpha: 0, y: 22, scale: 0.96 });
     gsap.set(badges, { autoAlpha: 0, y: 16, scale: 0.94 });
-    gsap.set(visual, { autoAlpha: 0, x: 54, y: 24, scale: 0.92, rotate: 1.5 });
-    gsap.set(visualImage, { transformOrigin: '50% 70%' });
-    gsap.set([seal, ...metrics].filter(Boolean), { autoAlpha: 0, y: 24, scale: 0.96 });
+    gsap.set(visual, { autoAlpha: 0, x: compactMotion ? 0 : 42, y: 24, scale: 0.96 });
+    gsap.set(stage, { transformOrigin: '50% 62%', transformPerspective: 1100 });
+    gsap.set(products, { autoAlpha: 0, y: 40, scale: 0.9, transformOrigin: '50% 70%' });
+    gsap.set(mainProduct, { x: compactMotion ? 0 : 38, rotation: -4 });
+    gsap.set(rearProduct, { x: compactMotion ? -14 : -36, rotation: -12 });
+    gsap.set(detailProduct, { x: compactMotion ? 16 : 32, rotation: 9 });
+    gsap.set([beam, floor, ...glassItems, ...metrics].filter(Boolean), { autoAlpha: 0, y: 24, scale: 0.96 });
     gsap.set(halo, { scale: 0.84, autoAlpha: 0 });
 
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
@@ -196,15 +207,46 @@
         x: 0,
         y: 0,
         scale: 1,
-        rotate: 0,
-        duration: 0.95,
+        duration: 0.7,
       }, '-=1.15')
-      .to(seal, {
+      .to([beam, floor].filter(Boolean), {
         autoAlpha: 1,
         y: 0,
         scale: 1,
-        duration: 0.56,
-      }, '-=0.36')
+        duration: 0.72,
+        stagger: 0.08,
+      }, '-=0.58')
+      .to(rearProduct, {
+        autoAlpha: compactMotion ? 0.42 : 0.66,
+        x: 0,
+        y: 0,
+        scale: 1,
+        rotation: -7,
+        duration: 0.9,
+      }, '-=0.42')
+      .to(mainProduct, {
+        autoAlpha: 1,
+        x: 0,
+        y: 0,
+        scale: 1,
+        rotation: -1.2,
+        duration: 0.95,
+      }, '-=0.72')
+      .to(detailProduct, {
+        autoAlpha: compactMotion ? 0.62 : 0.84,
+        x: 0,
+        y: 0,
+        scale: 1,
+        rotation: 5,
+        duration: 0.78,
+      }, '-=0.62')
+      .to(glassItems, {
+        autoAlpha: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.58,
+        stagger: 0.08,
+      }, '-=0.40')
       .to(metrics, {
         autoAlpha: 1,
         y: 0,
@@ -221,6 +263,89 @@
       repeat: -1,
       yoyo: true,
     });
+
+    [
+      { node: mainProduct, y: compactMotion ? -7 : -14, rotation: -0.4, duration: 5.8 },
+      { node: rearProduct, y: compactMotion ? -4 : -9, rotation: -8.2, duration: 6.6 },
+      { node: detailProduct, y: compactMotion ? -5 : -11, rotation: 6.2, duration: 5.2 },
+    ].forEach(({ node, x = 0, y = 0, rotation, duration }) => {
+      if (!node) return;
+
+      gsap.to(node, {
+        x,
+        y,
+        rotation,
+        duration,
+        delay: 1.6,
+        ease: 'sine.inOut',
+        repeat: -1,
+        yoyo: true,
+      });
+    });
+
+    [beam, floor].filter(Boolean).forEach((node, index) => {
+      gsap.to(node, {
+        scale: index === 0 ? 1.04 : 1.03,
+        autoAlpha: index === 0 ? 0.72 : 0.88,
+        duration: index === 0 ? 6.8 : 7.4,
+        delay: 1.4,
+        ease: 'sine.inOut',
+        repeat: -1,
+        yoyo: true,
+      });
+    });
+
+    gsap.to('.fire-hero__heat', {
+      x: compactMotion ? 8 : 18,
+      y: compactMotion ? -6 : -12,
+      scale: 1.05,
+      autoAlpha: compactMotion ? 0.48 : 0.72,
+      duration: 7.5,
+      delay: 1.2,
+      ease: 'sine.inOut',
+      repeat: -1,
+      yoyo: true,
+    });
+
+    gsap.to('.fire-hero__haze--back', {
+      x: compactMotion ? -8 : -22,
+      y: compactMotion ? 6 : 14,
+      duration: 9,
+      delay: 1.2,
+      ease: 'sine.inOut',
+      repeat: -1,
+      yoyo: true,
+    });
+
+    gsap.to('.fire-hero__haze--front', {
+      x: compactMotion ? 8 : 26,
+      y: compactMotion ? -4 : -10,
+      duration: 8.4,
+      delay: 1.2,
+      ease: 'sine.inOut',
+      repeat: -1,
+      yoyo: true,
+    });
+
+    gsap.to('.fire-hero__light--a', {
+      xPercent: compactMotion ? 2 : 6,
+      autoAlpha: compactMotion ? 0.08 : 0.18,
+      duration: 5.6,
+      delay: 1.2,
+      ease: 'sine.inOut',
+      repeat: -1,
+      yoyo: true,
+    });
+
+    if (!compactMotion) {
+      gsap.to('.fire-hero__ash', {
+        backgroundPosition: '68px 18px, 18px 102px',
+        duration: 18,
+        delay: 1.2,
+        ease: 'none',
+        repeat: -1,
+      });
+    }
   };
 
   const initScrollReveals = (gsap, ScrollTrigger) => {
@@ -341,8 +466,32 @@
         },
       });
 
-      gsap.to('.fire-hero__visual img', {
-        y: -36,
+      gsap.to('.fire-hero__ash', {
+        yPercent: 12,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: hero,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 1.4,
+        },
+      });
+
+      gsap.to('.fire-hero__heat', {
+        yPercent: -8,
+        scale: 1.08,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: hero,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 1.1,
+        },
+      });
+
+      gsap.to('.fire-hero__stage', {
+        yPercent: -4,
+        rotateX: 2,
         ease: 'none',
         scrollTrigger: {
           trigger: hero,
@@ -350,6 +499,24 @@
           end: 'bottom top',
           scrub: 0.9,
         },
+      });
+
+      [
+        { selector: '.fire-hero__product--rear', yPercent: -8 },
+        { selector: '.fire-hero__product--main', yPercent: -5 },
+        { selector: '.fire-hero__product--detail', yPercent: -12 },
+        { selector: '.fire-hero__glass', yPercent: -10 },
+      ].forEach(({ selector, yPercent }) => {
+        gsap.to(selector, {
+          yPercent,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: hero,
+            start: 'top top',
+            end: 'bottom top',
+            scrub: 0.9,
+          },
+        });
       });
     }
 
@@ -455,14 +622,18 @@
 
     const hero = document.querySelector('.fire-hero');
     const glow = hero?.querySelector('.fire-hero__glow');
-    const halo = hero?.querySelector('.fire-hero__halo');
 
-    if (!hero || !glow || !halo) return;
+    if (!hero || !glow) return;
 
     const glowX = gsap.quickTo(glow, 'x', { duration: 0.75, ease: 'power3.out' });
     const glowY = gsap.quickTo(glow, 'y', { duration: 0.75, ease: 'power3.out' });
-    const haloX = gsap.quickTo(halo, 'x', { duration: 0.6, ease: 'power3.out' });
-    const haloY = gsap.quickTo(halo, 'y', { duration: 0.6, ease: 'power3.out' });
+    const depthLayers = qsa('[data-depth]', hero)
+      .filter((layer) => !layer.classList.contains('fire-hero__product'))
+      .map((layer) => ({
+        depth: Number(layer.dataset.depth || 8),
+        x: gsap.quickTo(layer, 'x', { duration: 0.65, ease: 'power3.out' }),
+        y: gsap.quickTo(layer, 'y', { duration: 0.65, ease: 'power3.out' }),
+      }));
 
     hero.addEventListener('pointermove', (event) => {
       const rect = hero.getBoundingClientRect();
@@ -471,8 +642,11 @@
 
       glowX(x * 34);
       glowY(y * 26);
-      haloX(x * 20);
-      haloY(y * 16);
+
+      depthLayers.forEach((layer) => {
+        layer.x(x * layer.depth);
+        layer.y(y * layer.depth * 0.72);
+      });
     }, { passive: true });
   };
 
