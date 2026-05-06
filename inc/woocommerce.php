@@ -185,7 +185,7 @@ function xxx_safety_wc_get_product_gallery_items( $product ) {
 			'thumb_height' => $thumb[2],
 			'alt'          => get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ) ?: $product->get_name(),
 			'srcset'       => wp_get_attachment_image_srcset( $attachment_id, 'full' ),
-			'sizes'        => wp_get_attachment_image_sizes( $attachment_id, 'full' ),
+			'sizes'        => '(min-width: 981px) 620px, 84vw',
 			'primary'      => 0 === $index,
 		);
 	}

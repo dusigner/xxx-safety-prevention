@@ -122,9 +122,12 @@
           isAnimating = true;
           const currentShell = current.querySelector('[data-product-zoom-surface]');
           const nextShell = next.querySelector('[data-product-zoom-surface]');
+          const currentImage = currentShell ? currentShell.querySelector('img') : null;
+          const nextImage = nextShell ? nextShell.querySelector('img') : null;
 
           updateControls(nextIndex);
-          window.gsap.killTweensOf([current, next, currentShell, nextShell]);
+          window.gsap.killTweensOf([current, next, currentShell, nextShell, currentImage, nextImage]);
+          window.gsap.set([currentImage, nextImage].filter(Boolean), { x: 0, y: 0, scale: 1, transformOrigin: '50% 50%' });
           next.classList.add('is-active');
           next.setAttribute('aria-hidden', 'false');
           window.gsap.set(next, { autoAlpha: 0, x: direction * 42, scale: 0.985 });
@@ -456,7 +459,7 @@
         ease: 'sine.inOut',
       });
 
-      gsap.to('.xxx-product-gallery__panel img', {
+      gsap.to('.xxx-product-gallery__image-shell', {
         y: -10,
         duration: 4.6,
         repeat: -1,
@@ -602,22 +605,30 @@
         const rotateY = gsap.quickTo(viewport, 'rotationY', { duration: 0.5, ease: 'power3.out' });
         const glowX = glow ? gsap.quickTo(glow, 'x', { duration: 0.7, ease: 'power3.out' }) : null;
         const glowY = glow ? gsap.quickTo(glow, 'y', { duration: 0.7, ease: 'power3.out' }) : null;
-        const zoomHandlers = new WeakMap();
-        const getActiveZoomSurface = () => viewport.querySelector('.xxx-product-gallery__panel.is-active [data-product-zoom-surface]');
-        const getZoomHandlers = (surface) => {
-          if (!surface) {
+        const imageZoomHandlers = new WeakMap();
+        const getActiveZoomImage = () => viewport.querySelector('.xxx-product-gallery__panel.is-active [data-product-zoom-surface] img');
+        const getImageZoomHandlers = (image) => {
+          if (!image) {
             return null;
           }
 
-          if (!zoomHandlers.has(surface)) {
-            zoomHandlers.set(surface, {
-              x: gsap.quickTo(surface, 'x', { duration: 0.62, ease: 'power3.out' }),
-              y: gsap.quickTo(surface, 'y', { duration: 0.62, ease: 'power3.out' }),
-              scale: gsap.quickTo(surface, 'scale', { duration: 0.62, ease: 'power3.out' }),
+          if (!imageZoomHandlers.has(image)) {
+            imageZoomHandlers.set(image, {
+              x: gsap.quickTo(image, 'x', { duration: 0.62, ease: 'power3.out' }),
+              y: gsap.quickTo(image, 'y', { duration: 0.62, ease: 'power3.out' }),
+              scale: gsap.quickTo(image, 'scale', { duration: 0.62, ease: 'power3.out' }),
             });
           }
 
-          return zoomHandlers.get(surface);
+          return imageZoomHandlers.get(image);
+        };
+        const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+        const getImageOrigin = (image, event) => {
+          const rect = image.getBoundingClientRect();
+          const originX = clamp(((event.clientX - rect.left) / Math.max(rect.width, 1)) * 100, 0, 100);
+          const originY = clamp(((event.clientY - rect.top) / Math.max(rect.height, 1)) * 100, 0, 100);
+
+          return { originX, originY, rect };
         };
 
         viewport.addEventListener('pointermove', (event) => {
@@ -628,18 +639,25 @@
           const rect = viewport.getBoundingClientRect();
           const x = (event.clientX - rect.left) / rect.width - 0.5;
           const y = (event.clientY - rect.top) / rect.height - 0.5;
-          const zoomSurface = getActiveZoomSurface();
-          const zoom = getZoomHandlers(zoomSurface);
+          const zoomImage = getActiveZoomImage();
+          const zoom = getImageZoomHandlers(zoomImage);
 
           rotateY(x * 5);
           rotateX(y * -4);
           viewport.style.setProperty('--gallery-light-x', `${Math.round((x + 0.5) * 100)}%`);
           viewport.style.setProperty('--gallery-light-y', `${Math.round((y + 0.5) * 100)}%`);
 
-          if (zoom) {
-            zoom.x(x * -42);
-            zoom.y(y * -34);
-            zoom.scale(1.15);
+          if (zoom && zoomImage) {
+            const imageOrigin = getImageOrigin(zoomImage, event);
+            const imageCenterX = imageOrigin.originX / 100 - 0.5;
+            const imageCenterY = imageOrigin.originY / 100 - 0.5;
+
+            gsap.set(zoomImage, {
+              transformOrigin: `${imageOrigin.originX}% ${imageOrigin.originY}%`,
+            });
+            zoom.x(imageCenterX * -18);
+            zoom.y(imageCenterY * -14);
+            zoom.scale(1.86);
           }
 
           if (glowX && glowY) {
@@ -659,14 +677,16 @@
 
           viewport.style.removeProperty('--gallery-light-x');
           viewport.style.removeProperty('--gallery-light-y');
-          toArray('[data-product-zoom-surface]', viewport).forEach((surface) => {
-            const zoom = getZoomHandlers(surface);
+          toArray('[data-product-zoom-surface] img', viewport).forEach((image) => {
+            const zoom = getImageZoomHandlers(image);
 
             if (zoom) {
               zoom.x(0);
               zoom.y(0);
               zoom.scale(1);
             }
+
+            gsap.set(image, { transformOrigin: '50% 50%' });
           });
         });
       }
