@@ -23,6 +23,11 @@ function xxx_safety_woocommerce_support_customizations() {
 		remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20 );
 		remove_action( 'woocommerce_after_single_product_summary', 'xxx_safety_wc_single_product_extras', 25 );
 	}
+
+	if ( function_exists( 'is_shop' ) && ( is_shop() || ( function_exists( 'is_product_taxonomy' ) && is_product_taxonomy() ) ) ) {
+		remove_action( 'woocommerce_before_shop_loop_item_title', 'woocommerce_template_loop_product_thumbnail', 10 );
+		add_action( 'woocommerce_before_shop_loop_item_title', 'xxx_safety_wc_loop_product_thumbnail', 10 );
+	}
 }
 add_action( 'wp', 'xxx_safety_woocommerce_support_customizations' );
 
@@ -253,6 +258,34 @@ function xxx_safety_wc_render_product_gallery( $product ) {
 			</div>
 		<?php endif; ?>
 	</div>
+	<?php
+}
+
+function xxx_safety_wc_loop_product_thumbnail() {
+	global $product;
+
+	if ( ! $product instanceof WC_Product ) {
+		return;
+	}
+
+	$image_id = $product->get_image_id();
+	if ( $image_id ) {
+		echo wp_get_attachment_image(
+			$image_id,
+			'woocommerce_thumbnail',
+			false,
+			array(
+				'alt'      => get_post_meta( $image_id, '_wp_attachment_image_alt', true ) ?: $product->get_name(),
+				'loading'  => 'lazy',
+				'decoding' => 'async',
+			)
+		); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		return;
+	}
+
+	$fallback = xxx_safety_wc_product_fallback_image( $product );
+	?>
+	<img src="<?php echo esc_url( $fallback['url'] ); ?>" alt="<?php echo esc_attr( $fallback['alt'] ); ?>" width="<?php echo esc_attr( $fallback['width'] ); ?>" height="<?php echo esc_attr( $fallback['height'] ); ?>" loading="lazy" decoding="async" />
 	<?php
 }
 
