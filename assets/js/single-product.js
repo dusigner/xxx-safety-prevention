@@ -59,11 +59,16 @@
         return;
       }
 
+      const viewport = gallery.querySelector('[data-product-gallery-viewport]');
       const panels = toArray('[data-product-gallery-panel]', gallery);
       const thumbs = toArray('[data-product-gallery-thumb]', gallery);
+      const dots = toArray('[data-product-gallery-dot]', gallery);
+      const prev = gallery.querySelector('[data-product-gallery-prev]');
+      const next = gallery.querySelector('[data-product-gallery-next]');
       let activeIndex = panels.findIndex((panel) => panel.classList.contains('is-active'));
+      let isAnimating = false;
 
-      if (!panels.length || !thumbs.length) {
+      if (!panels.length) {
         return;
       }
 
@@ -71,52 +76,229 @@
         activeIndex = 0;
       }
 
-      thumbs.forEach((thumb, index) => {
-        thumb.setAttribute('aria-pressed', index === activeIndex ? 'true' : 'false');
-      });
+      const normalizeIndex = (index) => {
+        if (index < 0) {
+          return panels.length - 1;
+        }
 
-      const setActive = (nextIndex) => {
+        if (index >= panels.length) {
+          return 0;
+        }
+
+        return index;
+      };
+
+      const updateControls = (index) => {
+        thumbs.forEach((thumb, thumbIndex) => {
+          thumb.classList.toggle('is-active', thumbIndex === index);
+          thumb.setAttribute('aria-pressed', thumbIndex === index ? 'true' : 'false');
+        });
+
+        dots.forEach((dot, dotIndex) => {
+          dot.classList.toggle('is-active', dotIndex === index);
+        });
+      };
+
+      const updateState = (index) => {
+        panels.forEach((panel, panelIndex) => {
+          panel.classList.toggle('is-active', panelIndex === index);
+          panel.setAttribute('aria-hidden', panelIndex === index ? 'false' : 'true');
+        });
+
+        updateControls(index);
+      };
+
+      const setActive = (nextIndex, preferredDirection) => {
+        nextIndex = normalizeIndex(nextIndex);
         const current = panels[activeIndex];
         const next = panels[nextIndex];
+        const direction = preferredDirection || (nextIndex > activeIndex ? 1 : -1);
 
-        if (!next || nextIndex === activeIndex) {
+        if (!next || nextIndex === activeIndex || isAnimating) {
           return;
         }
 
-        thumbs.forEach((thumb, index) => {
-          thumb.classList.toggle('is-active', index === nextIndex);
-          thumb.setAttribute('aria-pressed', index === nextIndex ? 'true' : 'false');
-        });
-
         if (hasGsap && !reducedMotion) {
-          window.gsap.killTweensOf([current, next]);
+          isAnimating = true;
+          const currentShell = current.querySelector('[data-product-zoom-surface]');
+          const nextShell = next.querySelector('[data-product-zoom-surface]');
+
+          updateControls(nextIndex);
+          window.gsap.killTweensOf([current, next, currentShell, nextShell]);
           next.classList.add('is-active');
-          window.gsap.set(next, { autoAlpha: 0, x: 28, scale: 0.985 });
-          window.gsap.to(current, {
-            autoAlpha: 0,
-            x: -22,
-            scale: 0.985,
-            duration: 0.32,
-            ease: 'power2.out',
-            onComplete: () => current.classList.remove('is-active'),
+          next.setAttribute('aria-hidden', 'false');
+          window.gsap.set(next, { autoAlpha: 0, x: direction * 42, scale: 0.985 });
+          window.gsap.set(nextShell, { x: direction * 22, y: 0, scale: 0.985 });
+
+          const timeline = window.gsap.timeline({
+            defaults: { ease: 'power3.out' },
+            onComplete: () => {
+              current.classList.remove('is-active');
+              current.setAttribute('aria-hidden', 'true');
+              window.gsap.set(current, { clearProps: 'x,scale,autoAlpha' });
+              window.gsap.set(currentShell, { clearProps: 'x,y,scale' });
+              activeIndex = nextIndex;
+              updateState(activeIndex);
+              isAnimating = false;
+            },
           });
-          window.gsap.to(next, {
+
+          timeline.to(current, {
+            autoAlpha: 0,
+            x: direction * -34,
+            scale: 0.985,
+            duration: 0.34,
+          }, 0);
+          timeline.to(currentShell, {
+            x: direction * -18,
+            scale: 0.96,
+            duration: 0.34,
+          }, 0);
+          timeline.to(next, {
             autoAlpha: 1,
             x: 0,
             scale: 1,
-            duration: 0.54,
-            ease: 'power3.out',
-          });
+            duration: 0.62,
+          }, 0.07);
+          timeline.to(nextShell, {
+            x: 0,
+            scale: 1,
+            duration: 0.68,
+          }, 0.07);
         } else {
-          current.classList.remove('is-active');
-          next.classList.add('is-active');
+          activeIndex = nextIndex;
+          updateState(activeIndex);
         }
+      };
 
-        activeIndex = nextIndex;
+      updateState(activeIndex);
+
+      if (prev) {
+        prev.addEventListener('click', () => setActive(activeIndex - 1, -1));
+      }
+
+      if (next) {
+        next.addEventListener('click', () => setActive(activeIndex + 1, 1));
+      }
+
+      if (viewport && panels.length > 1) {
+        viewport.addEventListener('keydown', (event) => {
+          if (event.key === 'ArrowLeft') {
+            event.preventDefault();
+            setActive(activeIndex - 1, -1);
+          }
+
+          if (event.key === 'ArrowRight') {
+            event.preventDefault();
+            setActive(activeIndex + 1, 1);
+          }
+        });
+      }
+
+      if (viewport && hasGsap && !reducedMotion && prev && next && !window.matchMedia('(max-width: 720px)').matches) {
+        const arrows = [prev, next];
+        window.gsap.set(arrows, { autoAlpha: 0, scale: 0.92 });
+
+        viewport.addEventListener('pointerenter', () => {
+          window.gsap.to(arrows, { autoAlpha: 1, scale: 1, duration: 0.32, stagger: 0.035, ease: 'power2.out' });
+        });
+
+        viewport.addEventListener('pointerleave', () => {
+          window.gsap.to(arrows, { autoAlpha: 0, scale: 0.92, duration: 0.25, ease: 'power2.out' });
+        });
+      }
+
+      let dragState = null;
+
+      const resetDraggedPanel = () => {
+        const current = panels[activeIndex];
+        const currentShell = current ? current.querySelector('[data-product-zoom-surface]') : null;
+
+        if (hasGsap && !reducedMotion && current) {
+          window.gsap.to([current, currentShell], { x: 0, scale: 1, duration: 0.32, ease: 'power2.out' });
+        } else if (current) {
+          current.style.transform = '';
+        }
+      };
+
+      if (viewport && panels.length > 1) {
+        viewport.addEventListener('pointerdown', (event) => {
+          const isTouchLike = event.pointerType === 'touch' || window.matchMedia('(max-width: 720px)').matches;
+
+          if (!isTouchLike || isAnimating) {
+            return;
+          }
+
+          dragState = {
+            pointerId: event.pointerId,
+            startX: event.clientX,
+            startY: event.clientY,
+            deltaX: 0,
+            isDragging: false,
+          };
+
+          viewport.setPointerCapture(event.pointerId);
+        });
+
+        viewport.addEventListener('pointermove', (event) => {
+          if (!dragState || event.pointerId !== dragState.pointerId) {
+            return;
+          }
+
+          const deltaX = event.clientX - dragState.startX;
+          const deltaY = event.clientY - dragState.startY;
+
+          if (!dragState.isDragging && Math.abs(deltaX) < 8) {
+            return;
+          }
+
+          if (Math.abs(deltaY) > Math.abs(deltaX) && !dragState.isDragging) {
+            return;
+          }
+
+          event.preventDefault();
+          dragState.isDragging = true;
+          dragState.deltaX = deltaX;
+          viewport.classList.add('is-dragging');
+
+          const current = panels[activeIndex];
+          const currentShell = current ? current.querySelector('[data-product-zoom-surface]') : null;
+          const progress = Math.min(Math.abs(deltaX) / Math.max(viewport.offsetWidth, 1), 0.22);
+
+          if (hasGsap && !reducedMotion && current) {
+            window.gsap.set(current, { x: deltaX * 0.42 });
+            window.gsap.set(currentShell, { x: deltaX * 0.12, scale: 1 - progress * 0.22 });
+          }
+        });
+
+        viewport.addEventListener('pointerup', (event) => {
+          if (!dragState || event.pointerId !== dragState.pointerId) {
+            return;
+          }
+
+          const threshold = Math.min(92, viewport.offsetWidth * 0.18);
+          const deltaX = dragState.deltaX;
+
+          viewport.classList.remove('is-dragging');
+          dragState = null;
+
+          if (Math.abs(deltaX) > threshold) {
+            setActive(activeIndex + (deltaX < 0 ? 1 : -1), deltaX < 0 ? 1 : -1);
+            return;
+          }
+
+          resetDraggedPanel();
+        });
+
+        viewport.addEventListener('pointercancel', () => {
+          viewport.classList.remove('is-dragging');
+          dragState = null;
+          resetDraggedPanel();
+        });
       };
 
       thumbs.forEach((thumb, index) => {
-        thumb.addEventListener('click', () => setActive(index));
+        thumb.addEventListener('click', () => setActive(index, index > activeIndex ? 1 : -1));
       });
     };
 
@@ -420,6 +602,23 @@
         const rotateY = gsap.quickTo(viewport, 'rotationY', { duration: 0.5, ease: 'power3.out' });
         const glowX = glow ? gsap.quickTo(glow, 'x', { duration: 0.7, ease: 'power3.out' }) : null;
         const glowY = glow ? gsap.quickTo(glow, 'y', { duration: 0.7, ease: 'power3.out' }) : null;
+        const zoomHandlers = new WeakMap();
+        const getActiveZoomSurface = () => viewport.querySelector('.xxx-product-gallery__panel.is-active [data-product-zoom-surface]');
+        const getZoomHandlers = (surface) => {
+          if (!surface) {
+            return null;
+          }
+
+          if (!zoomHandlers.has(surface)) {
+            zoomHandlers.set(surface, {
+              x: gsap.quickTo(surface, 'x', { duration: 0.62, ease: 'power3.out' }),
+              y: gsap.quickTo(surface, 'y', { duration: 0.62, ease: 'power3.out' }),
+              scale: gsap.quickTo(surface, 'scale', { duration: 0.62, ease: 'power3.out' }),
+            });
+          }
+
+          return zoomHandlers.get(surface);
+        };
 
         viewport.addEventListener('pointermove', (event) => {
           if (event.pointerType === 'touch') {
@@ -429,9 +628,19 @@
           const rect = viewport.getBoundingClientRect();
           const x = (event.clientX - rect.left) / rect.width - 0.5;
           const y = (event.clientY - rect.top) / rect.height - 0.5;
+          const zoomSurface = getActiveZoomSurface();
+          const zoom = getZoomHandlers(zoomSurface);
 
           rotateY(x * 5);
           rotateX(y * -4);
+          viewport.style.setProperty('--gallery-light-x', `${Math.round((x + 0.5) * 100)}%`);
+          viewport.style.setProperty('--gallery-light-y', `${Math.round((y + 0.5) * 100)}%`);
+
+          if (zoom) {
+            zoom.x(x * -42);
+            zoom.y(y * -34);
+            zoom.scale(1.15);
+          }
 
           if (glowX && glowY) {
             glowX(x * 28);
@@ -447,6 +656,18 @@
             glowX(0);
             glowY(0);
           }
+
+          viewport.style.removeProperty('--gallery-light-x');
+          viewport.style.removeProperty('--gallery-light-y');
+          toArray('[data-product-zoom-surface]', viewport).forEach((surface) => {
+            const zoom = getZoomHandlers(surface);
+
+            if (zoom) {
+              zoom.x(0);
+              zoom.y(0);
+              zoom.scale(1);
+            }
+          });
         });
       }
 

@@ -140,10 +140,13 @@ function xxx_safety_wc_product_fallback_image( $product ) {
 	}
 
 	return array(
-		'url'    => xxx_safety_wc_product_asset_url( $file ),
-		'width'  => 832,
-		'height' => 1248,
-		'alt'    => $product->get_name(),
+		'url'          => xxx_safety_wc_product_asset_url( $file ),
+		'thumb_url'    => xxx_safety_wc_product_asset_url( $file ),
+		'width'        => 832,
+		'height'       => 1248,
+		'thumb_width'  => 96,
+		'thumb_height' => 120,
+		'alt'          => $product->get_name(),
 	);
 }
 
@@ -167,16 +170,23 @@ function xxx_safety_wc_get_product_gallery_items( $product ) {
 		if ( ! $full ) {
 			continue;
 		}
+		$thumb = wp_get_attachment_image_src( $attachment_id, 'woocommerce_thumbnail' );
+		if ( ! $thumb ) {
+			$thumb = $full;
+		}
 
 		$items[] = array(
-			'id'      => $attachment_id,
-			'url'     => $full[0],
-			'width'   => $full[1],
-			'height'  => $full[2],
-			'alt'     => get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ) ?: $product->get_name(),
-			'srcset'  => wp_get_attachment_image_srcset( $attachment_id, 'full' ),
-			'sizes'   => wp_get_attachment_image_sizes( $attachment_id, 'full' ),
-			'primary' => 0 === $index,
+			'id'           => $attachment_id,
+			'url'          => $full[0],
+			'thumb_url'    => $thumb[0],
+			'width'        => $full[1],
+			'height'       => $full[2],
+			'thumb_width'  => $thumb[1],
+			'thumb_height' => $thumb[2],
+			'alt'          => get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ) ?: $product->get_name(),
+			'srcset'       => wp_get_attachment_image_srcset( $attachment_id, 'full' ),
+			'sizes'        => wp_get_attachment_image_sizes( $attachment_id, 'full' ),
+			'primary'      => 0 === $index,
 		);
 	}
 
@@ -189,12 +199,13 @@ function xxx_safety_wc_get_product_gallery_items( $product ) {
 
 function xxx_safety_wc_render_product_gallery( $product ) {
 	$items = xxx_safety_wc_get_product_gallery_items( $product );
+	$count = count( $items );
 	?>
-	<div class="xxx-product-gallery" data-product-gallery>
-		<div class="xxx-product-gallery__viewport">
+	<div class="xxx-product-gallery" data-product-gallery data-gallery-count="<?php echo esc_attr( $count ); ?>">
+		<div class="xxx-product-gallery__viewport" data-product-gallery-viewport tabindex="0" role="region" aria-roledescription="<?php esc_attr_e( 'carrossel', 'xxx-safety-prevention' ); ?>" aria-label="<?php esc_attr_e( 'Galeria de imagens do produto', 'xxx-safety-prevention' ); ?>">
 			<?php foreach ( $items as $index => $item ) : ?>
-				<figure class="xxx-product-gallery__panel <?php echo 0 === $index ? 'is-active' : ''; ?>" data-product-gallery-panel="<?php echo esc_attr( $index ); ?>">
-					<a href="<?php echo esc_url( $item['url'] ); ?>" target="_blank" rel="noopener">
+				<figure class="xxx-product-gallery__panel <?php echo 0 === $index ? 'is-active' : ''; ?>" data-product-gallery-panel="<?php echo esc_attr( $index ); ?>" aria-hidden="<?php echo 0 === $index ? 'false' : 'true'; ?>">
+					<div class="xxx-product-gallery__image-shell" data-product-zoom-surface>
 						<img
 							src="<?php echo esc_url( $item['url'] ); ?>"
 							<?php if ( ! empty( $item['srcset'] ) ) : ?>
@@ -209,19 +220,35 @@ function xxx_safety_wc_render_product_gallery( $product ) {
 							<?php echo 0 === $index ? 'fetchpriority="high"' : 'loading="lazy"'; ?>
 							decoding="async"
 						/>
-					</a>
+					</div>
 				</figure>
 			<?php endforeach; ?>
+
+			<?php if ( $count > 1 ) : ?>
+				<button class="xxx-product-gallery__arrow xxx-product-gallery__arrow--prev" type="button" data-product-gallery-prev aria-label="<?php esc_attr_e( 'Imagem anterior', 'xxx-safety-prevention' ); ?>">
+					<span aria-hidden="true">‹</span>
+				</button>
+				<button class="xxx-product-gallery__arrow xxx-product-gallery__arrow--next" type="button" data-product-gallery-next aria-label="<?php esc_attr_e( 'Próxima imagem', 'xxx-safety-prevention' ); ?>">
+					<span aria-hidden="true">›</span>
+				</button>
+			<?php endif; ?>
+
 			<div class="xxx-product-gallery__glow" aria-hidden="true"></div>
 			<div class="xxx-product-gallery__floor" aria-hidden="true"></div>
 		</div>
 
-		<?php if ( count( $items ) > 1 ) : ?>
+		<?php if ( $count > 1 ) : ?>
 			<div class="xxx-product-gallery__thumbs" aria-label="<?php esc_attr_e( 'Galeria do produto', 'xxx-safety-prevention' ); ?>">
 				<?php foreach ( $items as $index => $item ) : ?>
 					<button class="<?php echo 0 === $index ? 'is-active' : ''; ?>" type="button" data-product-gallery-thumb="<?php echo esc_attr( $index ); ?>" aria-label="<?php echo esc_attr( sprintf( __( 'Ver imagem %d', 'xxx-safety-prevention' ), $index + 1 ) ); ?>">
-						<img src="<?php echo esc_url( $item['url'] ); ?>" alt="" width="96" height="120" loading="lazy" decoding="async" />
+						<img src="<?php echo esc_url( $item['thumb_url'] ?? $item['url'] ); ?>" alt="" width="<?php echo esc_attr( $item['thumb_width'] ?? 96 ); ?>" height="<?php echo esc_attr( $item['thumb_height'] ?? 120 ); ?>" loading="lazy" decoding="async" />
 					</button>
+				<?php endforeach; ?>
+			</div>
+
+			<div class="xxx-product-gallery__dots" aria-hidden="true">
+				<?php foreach ( $items as $index => $item ) : ?>
+					<span class="<?php echo 0 === $index ? 'is-active' : ''; ?>" data-product-gallery-dot="<?php echo esc_attr( $index ); ?>"></span>
 				<?php endforeach; ?>
 			</div>
 		<?php endif; ?>
