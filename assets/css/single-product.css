@@ -168,7 +168,7 @@
   position: relative;
   overflow: hidden;
   isolation: isolate;
-  height: clamp(430px, calc(100svh - 258px), 700px);
+  height: clamp(780px, calc(100svh - 258px), 700px);
   min-height: 430px;
   border: 1px solid rgba(255, 248, 239, .14);
   border-radius: 24px;
