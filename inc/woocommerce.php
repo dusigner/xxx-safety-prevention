@@ -44,6 +44,10 @@ function xxx_safety_wc_section_intro() {
 		return;
 	}
 
+	if ( function_exists( 'is_cart' ) && is_cart() ) {
+		return;
+	}
+
 	$title = '';
 	if ( function_exists( 'is_cart' ) && is_cart() ) {
 		$title = esc_html__( 'Carrinho', 'xxx-safety-prevention' );
