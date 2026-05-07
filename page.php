@@ -9,13 +9,15 @@ get_header();
 $slug       = get_post_field( 'post_name', get_the_ID() );
 $is_contact = 'contato' === $slug;
 $is_cart    = function_exists( 'is_cart' ) && is_cart();
+$is_checkout = function_exists( 'is_checkout' ) && is_checkout() && ( ! function_exists( 'is_order_received_page' ) || ! is_order_received_page() );
+$is_premium_wc_page = $is_cart || $is_checkout;
 
-if ( ! $is_cart ) {
+if ( ! $is_premium_wc_page ) {
 	xxx_safety_inner_hero( get_the_title() );
 }
 ?>
 <main id="primary" class="site-main">
-	<div class="container <?php echo $is_cart ? 'xxx-cart-container' : 'section'; ?>">
+	<div class="container <?php echo $is_premium_wc_page ? 'xxx-wc-premium-container' : 'section'; ?>">
 		<?php if ( $is_contact ) : ?>
 			<section class="contact-page-grid">
 				<div class="contact-form-main xxx-animate xxx-fade-up">
@@ -45,12 +47,12 @@ if ( ! $is_cart ) {
 		<?php endif; ?>
 
 		<?php while ( have_posts() ) : the_post(); ?>
-			<article id="post-<?php the_ID(); ?>" <?php post_class( $is_cart ? 'xxx-cart-content' : 'page-content card xxx-animate xxx-fade-up' ); ?>>
+			<article id="post-<?php the_ID(); ?>" <?php post_class( $is_premium_wc_page ? 'xxx-wc-premium-content' : 'page-content card xxx-animate xxx-fade-up' ); ?>>
 				<?php the_content(); ?>
 			</article>
 		<?php endwhile; ?>
 
-		<?php if ( ! $is_cart ) : ?>
+		<?php if ( ! $is_premium_wc_page ) : ?>
 			<section class="card-grid cols-3 benefits-grid">
 				<?php
 				$benefits = array(
@@ -65,7 +67,7 @@ if ( ! $is_cart ) {
 			</section>
 		<?php endif; ?>
 	</div>
-	<?php if ( ! $is_cart ) : ?>
+	<?php if ( ! $is_premium_wc_page ) : ?>
 		<?php xxx_safety_bottom_cta(); ?>
 	<?php endif; ?>
 </main>
