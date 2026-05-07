@@ -17,6 +17,14 @@ body.woocommerce-cart .xxx-cart-container {
   padding-top: 0;
 }
 
+
+body.woocommerce-cart .xxx-cart-container .woocommerce-notices-wrapper{
+  margin-top: 36px;
+}
+body.woocommerce-cart .xxx-cart-container .woocommerce-message::before {
+  position: none !important;
+}
+
 body.woocommerce-cart .xxx-cart-content {
   margin: 0;
 }
