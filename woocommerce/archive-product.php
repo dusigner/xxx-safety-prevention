@@ -54,7 +54,7 @@ $category_count = wp_count_terms(
 			</div>
 			<div>
 				<span><?php esc_html_e( 'Compra', 'xxx-safety-prevention' ); ?></span>
-				<strong><?php esc_html_e( 'WooCommerce', 'xxx-safety-prevention' ); ?></strong>
+				<strong><?php esc_html_e( 'Segura', 'xxx-safety-prevention' ); ?></strong>
 			</div>
 			<div>
 				<span><?php esc_html_e( 'Suporte', 'xxx-safety-prevention' ); ?></span>

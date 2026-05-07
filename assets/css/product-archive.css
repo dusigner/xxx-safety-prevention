@@ -246,6 +246,7 @@
   border-radius: 999px;
   color: var(--shop-ink);
   background: rgba(3, 7, 12, .70);
+  text-align: center;
 }
 
 .woocommerce .xxx-shop-products ul.products {
@@ -360,6 +361,9 @@
   box-shadow: 0 18px 42px rgba(226, 30, 56, .28);
   text-transform: uppercase;
   letter-spacing: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .woocommerce .xxx-shop-products span.onsale {

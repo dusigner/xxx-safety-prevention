@@ -205,7 +205,7 @@ body.woocommerce-cart .xxx-cart-content {
 .xxx-cart-item__media {
   position: relative;
   display: grid;
-  min-height: 142px;
+  height: 142px;
   place-items: center;
   overflow: hidden;
   border: 1px solid rgba(255, 248, 236, .10);
@@ -235,8 +235,6 @@ body.woocommerce-cart .xxx-cart-content {
 }
 
 .xxx-cart-item__media img {
-  width: min(96px, 78%);
-  height: 118px;
   object-fit: contain;
   filter: drop-shadow(0 24px 30px rgba(0, 0, 0, .38));
   transition: transform .28s ease;
@@ -503,8 +501,6 @@ body.woocommerce-cart .xxx-cart-content {
 .xxx-cart-summary__inner .wc-proceed-to-checkout p a br {
   display: none;
 }
-
-.xxx-cart-summary__inner {
 
 .cart_totals {
   float: none !important;
