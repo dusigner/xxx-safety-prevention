@@ -348,6 +348,10 @@ body.woocommerce-cart .xxx-wc-premium-content {
   text-transform: uppercase;
 }
 
+.xxx-cart-item__meta .amount {
+  font-size: 18px;
+}
+
 .xxx-cart-item__meta strong {
   color: #fff8ec;
   font-size: 18px;
@@ -518,6 +522,7 @@ body.woocommerce-cart .xxx-wc-premium-content {
 .cart_totals {
   float: none !important;
   width: auto !important;
+  border-radius: 20px;
 }
 
 .xxx-cart-totals__header {
@@ -637,6 +642,7 @@ body.woocommerce-cart .xxx-wc-premium-content {
   grid-template-columns: 1fr 1fr;
   gap: 8px;
   margin-top: 18px;
+  padding: 10px;
 }
 
 .xxx-cart-trust div {
