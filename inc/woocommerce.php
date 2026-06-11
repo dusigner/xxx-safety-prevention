@@ -48,7 +48,7 @@ function xxx_safety_wc_render_classic_cart_template( $content ) {
 
 	return do_shortcode( '[woocommerce_cart]' );
 }
-add_filter( 'the_content', 'xxx_safety_wc_render_classic_cart_template', 8 );
+add_filter( 'the_content', 'xxx_safety_wc_render_classic_cart_template', 12 );
 
 function xxx_safety_wc_render_classic_checkout_template( $content ) {
 	if ( is_admin() || is_feed() || ! function_exists( 'is_checkout' ) || ! is_checkout() || ( function_exists( 'is_order_received_page' ) && is_order_received_page() ) || ! function_exists( 'WC' ) ) {
