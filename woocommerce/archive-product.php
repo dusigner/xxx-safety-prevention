@@ -61,8 +61,6 @@ $category_count = wp_count_terms(
 				<strong><?php esc_html_e( 'Técnico', 'xxx-safety-prevention' ); ?></strong>
 			</div>
 		</div>
-
-		<?php do_action( 'woocommerce_archive_description' ); ?>
 	</header>
 
 	<?php if ( ! is_wp_error( $categories ) && ! empty( $categories ) ) : ?>
