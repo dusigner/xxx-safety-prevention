@@ -15,6 +15,7 @@ $xxx_includes = array(
 	'inc/customizer.php',
 	'inc/contact-form-7.php',
 	'inc/template-functions.php',
+	'inc/seo.php',
 	'inc/woocommerce.php',
 	'inc/demo-importer.php',
 );
