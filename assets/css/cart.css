@@ -327,14 +327,16 @@ body.woocommerce-cart .xxx-wc-premium-content {
 
 .xxx-cart-item__meta {
   display: grid;
-  grid-template-columns: minmax(110px, .9fr) minmax(138px, auto) minmax(118px, .9fr);
-  gap: 10px;
-  align-items: end;
+  grid-template-columns: minmax(132px, .95fr) minmax(152px, auto) minmax(132px, .95fr);
+  gap: 16px;
+  align-items: stretch;
 }
 
 .xxx-cart-item__meta > div {
   display: grid;
-  gap: 8px;
+  grid-template-rows: 18px 48px;
+  gap: 10px;
+  align-items: center;
   min-width: 0;
 }
 
@@ -348,20 +350,24 @@ body.woocommerce-cart .xxx-wc-premium-content {
 
 .xxx-cart-item__meta strong {
   color: #fff8ec;
-  font-size: 15px;
-  font-weight: 850;
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
 }
 
 .xxx-cart-item__subtotal strong {
-  color: #ffc499;
-  font-size: 17px;
+  color: #ffd0aa;
+  font-size: 20px;
 }
 
 .xxx-cart-quantity {
-  display: inline-flex;
-  grid-template-columns: 34px 58px 34px;
+  display: inline-grid;
+  grid-template-columns: 42px 66px 42px;
   align-items: center;
+  justify-self: start;
   width: max-content;
+  height: 48px;
   overflow: hidden;
   border: 1px solid rgba(255, 248, 236, .12);
   border-radius: 999px;
@@ -375,13 +381,14 @@ body.woocommerce-cart .xxx-wc-premium-content {
 
 .xxx-cart-quantity button {
   display: grid;
-  width: 34px;
-  height: 34px;
+  width: 42px;
+  height: 48px;
   place-items: center;
   border: 0;
   color: #fff8ec;
-  font-size: 18px;
+  font-size: 21px;
   font-weight: 900;
+  line-height: 1;
   background: transparent;
   cursor: pointer;
   transition: background .2s ease, color .2s ease;
@@ -395,18 +402,20 @@ body.woocommerce-cart .xxx-wc-premium-content {
 .xxx-cart-quantity .quantity {
   display: block !important;
   float: none !important;
-  width: 58px !important;
+  width: 66px !important;
   margin: 0 !important;
 }
 
 .xxx-cart-quantity input.qty {
   width: 100%;
-  height: 40px;
+  height: 48px;
   border: 0;
   border-left: 1px solid rgba(255, 248, 236, .10);
   border-right: 1px solid rgba(255, 248, 236, .10);
   color: #fff8ec;
+  font-size: 15px;
   font-weight: 900;
+  line-height: 48px;
   text-align: center;
   background: rgba(0, 0, 0, .14);
   appearance: textfield;
@@ -798,6 +807,7 @@ body.woocommerce-cart .xxx-wc-premium-content {
 
   .xxx-cart-item__meta > div {
     grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: auto;
     align-items: center;
   }
 

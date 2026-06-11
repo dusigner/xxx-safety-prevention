@@ -364,6 +364,61 @@
       });
     };
 
+    const initProductQuantity = () => {
+      const quantity = root.querySelector('form.cart .quantity');
+      const input = quantity ? quantity.querySelector('input.qty') : null;
+
+      if (!quantity || !input || quantity.dataset.xxxQuantityEnhanced === 'true') {
+        return;
+      }
+
+      const clampQuantityValue = (nextValue) => {
+        const min = input.getAttribute('min') === '' ? 0 : Number(input.getAttribute('min') || 0);
+        const maxAttr = input.getAttribute('max');
+        const max = maxAttr ? Number(maxAttr) : Infinity;
+
+        return Math.max(min, Math.min(max, nextValue));
+      };
+
+      const createButton = (type, label, text) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = `xxx-product-qty-button xxx-product-qty-button--${type}`;
+        button.dataset.productQtyControl = type;
+        button.setAttribute('aria-label', label);
+        button.textContent = text;
+
+        return button;
+      };
+
+      quantity.classList.add('xxx-product-quantity');
+      quantity.dataset.xxxQuantityEnhanced = 'true';
+      quantity.insertBefore(createButton('minus', 'Diminuir quantidade', '-'), input);
+      quantity.appendChild(createButton('plus', 'Aumentar quantidade', '+'));
+
+      quantity.addEventListener('click', (event) => {
+        const button = event.target.closest('[data-product-qty-control]');
+
+        if (!button || input.disabled || input.readOnly) {
+          return;
+        }
+
+        const current = Number(input.value || 0);
+        const next = clampQuantityValue(current + (button.dataset.productQtyControl === 'plus' ? 1 : -1));
+
+        if (Number(input.value) === next) {
+          return;
+        }
+
+        input.value = next;
+        input.dispatchEvent(new Event('change', { bubbles: true }));
+
+        if (hasGsap && !reducedMotion) {
+          window.gsap.fromTo(quantity, { scale: 0.985 }, { scale: 1, duration: 0.28, ease: 'back.out(2)' });
+        }
+      });
+    };
+
     const initHeroAnimations = () => {
       if (!hasGsap || reducedMotion) {
         return;
@@ -717,6 +772,7 @@
     initProductGallery();
     initProductAccordions();
     initMobileBuy();
+    initProductQuantity();
     initHeroAnimations();
     initScrollReveals();
     initParallax();

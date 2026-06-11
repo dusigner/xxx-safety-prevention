@@ -516,12 +516,65 @@
 }
 
 .woocommerce div.product.xxx-product-page .quantity .qty {
-  width: 92px;
-  min-height: 52px;
+  width: 104px;
+  min-height: 54px;
   border: 1px solid rgba(255, 248, 239, .18);
   border-radius: 999px;
   color: #fff;
   background: rgba(255, 255, 255, .06);
+  font-size: 16px;
+  font-weight: 850;
+  text-align: center;
+}
+
+.woocommerce div.product.xxx-product-page .xxx-product-quantity {
+  display: grid !important;
+  grid-template-columns: 44px 64px 44px;
+  align-items: center;
+  width: max-content;
+  min-height: 54px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 248, 239, .18);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .06);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08);
+}
+
+.woocommerce div.product.xxx-product-page .xxx-product-quantity .qty {
+  width: 64px !important;
+  min-height: 54px;
+  border: 0;
+  border-right: 1px solid rgba(255, 248, 239, .12);
+  border-left: 1px solid rgba(255, 248, 239, .12);
+  border-radius: 0;
+  background: rgba(0, 0, 0, .16);
+  appearance: textfield;
+}
+
+.woocommerce div.product.xxx-product-page .xxx-product-quantity .qty::-webkit-outer-spin-button,
+.woocommerce div.product.xxx-product-page .xxx-product-quantity .qty::-webkit-inner-spin-button {
+  margin: 0;
+  appearance: none;
+}
+
+.xxx-product-qty-button {
+  display: grid;
+  width: 44px;
+  height: 54px;
+  place-items: center;
+  border: 0;
+  color: #fff8ef;
+  font-size: 22px;
+  font-weight: 900;
+  line-height: 1;
+  background: transparent;
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease;
+}
+
+.xxx-product-qty-button:hover {
+  color: #fff;
+  background: rgba(255, 106, 26, .18);
 }
 
 .woocommerce div.product.xxx-product-page .stock {
@@ -988,6 +1041,14 @@
   .woocommerce div.product.xxx-product-page .quantity .qty,
   .woocommerce div.product.xxx-product-page .single_add_to_cart_button {
     width: 100%;
+  }
+
+  .woocommerce div.product.xxx-product-page .xxx-product-quantity {
+    width: max-content;
+  }
+
+  .woocommerce div.product.xxx-product-page .xxx-product-quantity .qty {
+    width: 64px !important;
   }
 
   .xxx-product-trust,
