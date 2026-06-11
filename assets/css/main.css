@@ -69,6 +69,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
 .mobile-menu-toggle span { display: block; width: 26px; height: 2px; margin: 5px 0; background: #fff; }
 
 .btn {
+  text-align: center;
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   padding: 12px 22px; border-radius: 999px; border: 1px solid transparent;
   color: #fff; font-size: .93rem; font-weight: 700;
@@ -762,7 +763,7 @@ p { color: var(--color-muted); }
 }
 .footer-grid a { color: rgba(255,248,236,.82); }
 .footer-grid a:hover { color: var(--color-gold); }
-.footer-bottom { text-align: left; }
+.footer-bottom { text-align: center; }
 .whatsapp-float {
   box-shadow: 0 16px 42px rgba(37,211,102,.32);
 }
