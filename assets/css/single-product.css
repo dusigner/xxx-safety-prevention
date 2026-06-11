@@ -455,9 +455,9 @@
   margin-bottom: 18px;
   color: #fff8ef;
   font-family: "Noto Serif", Georgia, serif;
-  font-size: clamp(46px, 5.5vw, 86px);
+  font-size: clamp(28px, 5.5vw, 36px);
   font-weight: 300;
-  line-height: .98;
+  line-height: 1.5;
   letter-spacing: 0;
   text-wrap: balance;
 }
