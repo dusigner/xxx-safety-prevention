@@ -104,7 +104,12 @@ function xxx_safety_scripts() {
 		'xxx-safety-main',
 		'xxxSafetyData',
 		array(
-			'whatsapp' => xxx_safety_get_theme_mod( 'whatsapp_number', '' ),
+			'whatsapp'      => xxx_safety_get_theme_mod( 'whatsapp_number', '' ),
+			'cookieConsent' => array(
+				'enabled'     => (bool) xxx_safety_get_theme_mod( 'enable_cookie_consent', true ),
+				'analyticsId' => xxx_safety_get_theme_mod( 'google_analytics_id', '' ),
+				'version'     => 'lgpd_cookie_v1',
+			),
 		)
 	);
 }

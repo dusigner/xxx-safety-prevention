@@ -34,7 +34,12 @@ $footer_id = is_front_page() ? 'rodape-contato' : 'contato';
 			<?php endif; ?>
 		</div>
 	</div>
-	<div class="footer-bottom"><p>&copy; <?php echo esc_html( gmdate( 'Y' ) ); ?> <?php bloginfo( 'name' ); ?>.</p></div>
+	<div class="footer-bottom">
+		<p>&copy; <?php echo esc_html( gmdate( 'Y' ) ); ?> <?php bloginfo( 'name' ); ?>.</p>
+		<?php if ( xxx_safety_get_theme_mod( 'enable_cookie_consent', true ) ) : ?>
+			<button type="button" class="xxx-cookie-preferences" data-cookie-preferences><?php esc_html_e( 'Preferências de cookies', 'xxx-safety-prevention' ); ?></button>
+		<?php endif; ?>
+	</div>
 </footer>
 
 <?php if ( ! empty( $whatsapp ) && xxx_safety_get_theme_mod( 'enable_whatsapp_float', true ) ) : ?>

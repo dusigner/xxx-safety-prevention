@@ -50,6 +50,14 @@ function xxx_safety_customize_register( $wp_customize ) {
 		)
 	);
 
+	$wp_customize->add_section(
+		'xxx_safety_privacy_section',
+		array(
+			'title'    => esc_html__( 'Privacidade e LGPD', 'xxx-safety-prevention' ),
+			'priority' => 34,
+		)
+	);
+
 	$contact_fields = array(
 		'whatsapp_number' => array( 'Telefone/WhatsApp', '5511999999999', 'sanitize_text_field' ),
 		'phone'           => array( 'Telefone Comercial', '(11) 3478-2200', 'sanitize_text_field' ),
@@ -230,6 +238,39 @@ function xxx_safety_customize_register( $wp_customize ) {
 			'label'   => esc_html__( 'Ativar botão flutuante do WhatsApp', 'xxx-safety-prevention' ),
 			'section' => 'xxx_safety_contact_section',
 			'type'    => 'checkbox',
+		)
+	);
+
+	$wp_customize->add_setting(
+		'xxx_safety_enable_cookie_consent',
+		array(
+			'default'           => true,
+			'sanitize_callback' => 'xxx_safety_sanitize_checkbox',
+		)
+	);
+	$wp_customize->add_control(
+		'xxx_safety_enable_cookie_consent',
+		array(
+			'label'   => esc_html__( 'Ativar banner de consentimento de cookies', 'xxx-safety-prevention' ),
+			'section' => 'xxx_safety_privacy_section',
+			'type'    => 'checkbox',
+		)
+	);
+
+	$wp_customize->add_setting(
+		'xxx_safety_google_analytics_id',
+		array(
+			'default'           => '',
+			'sanitize_callback' => 'sanitize_text_field',
+		)
+	);
+	$wp_customize->add_control(
+		'xxx_safety_google_analytics_id',
+		array(
+			'label'       => esc_html__( 'ID do Google Analytics 4', 'xxx-safety-prevention' ),
+			'description' => esc_html__( 'Exemplo: G-XXXXXXXXXX. O script só será carregado após o aceite de cookies analíticos.', 'xxx-safety-prevention' ),
+			'section'     => 'xxx_safety_privacy_section',
+			'type'        => 'text',
 		)
 	);
 

@@ -93,3 +93,27 @@ function xxx_safety_bottom_cta() {
 	</section>
 	<?php
 }
+
+function xxx_safety_cookie_consent_banner() {
+	if ( ! xxx_safety_get_theme_mod( 'enable_cookie_consent', true ) ) {
+		return;
+	}
+	?>
+	<div class="xxx-cookie-consent" data-cookie-consent hidden>
+		<div class="xxx-cookie-consent__inner" role="dialog" aria-live="polite" aria-label="<?php esc_attr_e( 'Preferências de cookies', 'xxx-safety-prevention' ); ?>">
+			<div class="xxx-cookie-consent__copy">
+				<p class="xxx-cookie-consent__title"><?php esc_html_e( 'Privacidade e cookies', 'xxx-safety-prevention' ); ?></p>
+				<p>
+					<?php esc_html_e( 'Usamos cookies necessários para o funcionamento do site e, com seu consentimento, cookies analíticos para entender o uso das páginas e melhorar a experiência. Você pode aceitar ou recusar os cookies analíticos.', 'xxx-safety-prevention' ); ?>
+					<a href="<?php echo esc_url( home_url( '/politica-de-privacidade/' ) ); ?>"><?php esc_html_e( 'Política de Privacidade', 'xxx-safety-prevention' ); ?></a>.
+				</p>
+			</div>
+			<div class="xxx-cookie-consent__actions">
+				<button type="button" class="xxx-cookie-consent__button xxx-cookie-consent__button--ghost" data-cookie-decline><?php esc_html_e( 'Recusar analíticos', 'xxx-safety-prevention' ); ?></button>
+				<button type="button" class="xxx-cookie-consent__button" data-cookie-accept><?php esc_html_e( 'Aceitar analíticos', 'xxx-safety-prevention' ); ?></button>
+			</div>
+		</div>
+	</div>
+	<?php
+}
+add_action( 'wp_footer', 'xxx_safety_cookie_consent_banner', 20 );
